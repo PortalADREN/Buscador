@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Bidireccional de Materia Prima</title>
+    <style>
+        /* ESTILOS CSS */
+        :root {
+            --gris-claro-fondo: #f4f6f9;
+            --blanco-puro: #ffffff;
+            --color-principal: #0056b3; /* AZUL */
+            --color-principal-hover: #004085;
+            --color-resaltado: #28a745; /* VERDE para resaltar el resultado */
+            --color-ht-button: #e1000f; /* ROJO ADREN para el botón de HT */
+            --color-ht-button-hover: #c4000d;
+        }
+
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background-color: var(--gris-claro-fondo); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+        
+        header { 
+            width: 100%; 
+            background-color: var(--blanco-puro); 
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-sizing: border-box; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Usamos logo_adren.png según la última corrección */
+        .header-logo img { height: 45px; width: auto; display: block; }
+
+        main { width: 100%; max-width: 800px; margin-top: 50px; text-align: center; padding: 20px; }
+        
+        h2 { color: #333; }
+
+        /* BUSCADOR */
+        .search-container { position: relative; width: 100%; }
+        input[type="text"] { 
+            width: 100%; 
+            padding: 15px 20px 15px 50px; 
+            border-radius: 30px; 
+            border: 1px solid #ccc; 
+            font-size: 16px; 
+            outline: none; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            box-sizing: border-box;
+            background-color: var(--blanco-puro);
+        }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #666; }
+        
+        /* BOTÓN DE BÚSQUEDA (AZUL) */
+        button.search-button { 
+            margin-top: 20px; 
+            padding: 12px 30px; 
+            background-color: var(--color-principal); 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button.search-button:hover { 
+            background-color: var(--color-principal-hover); 
+        }
+
+        /* RESULTADOS (TARJETA) */
+        #results { margin-top: 30px; width: 100%; text-align: left; }
+        .card { 
+            background: var(--blanco-puro); 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            border-left: 6px solid var(--color-principal); 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .card h3 { margin: 0; color: #333; font-weight: bold; }
+        .card p { margin: 0; color: #555; font-size: 1.1em; }
+
+        /* Estilos para el nuevo botón de Hoja Técnica */
+        .card-actions { 
+            margin-top: 10px; 
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+        .ht-button {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--color-ht-button); /* ROJO */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .ht-button:hover {
+            background-color: var(--color-ht-button-hover);
+        }
+        .no-ht-message {
+            color: #888;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+
+        /* Estilos para resaltar la parte encontrada */
+        .highlight {
+            color: var(--color-resaltado); 
+            font-weight: bold;
+        }
+        
+        .error { color: #cc0000; font-weight: bold; text-align: center; margin-top: 20px;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="./logo_adren.png
+
+
+" alt="Logo ADREN"> 
+        </div>
+        <div style="color: #666; font-size: 14px; font-weight: bold;">
+            Buscador Bidireccional de Materia Prima
+        </div>
+    </header>
+
+    <main>
+        <h2>Busque por Código o Nombre</h2>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Ingrese Código (Ej: A1101) o Nombre (Ej: Epoxy)...">
+        </div>
+        
+        <button class="search-button" onclick="buscarBidireccional()">Buscar Información</button>
+
+        <div id="results"></div>
+    </main>
+
+    <script>
+        // ------------------------------------------------------------------
+        // --- 🎯 BASE DE DATOS DE MATERIA PRIMA (AÑADIR CAMPO archivo_ht) ---
+        // ------------------------------------------------------------------
+        // **IMPORTANTE:** Debes editar esta lista y añadir el nombre del archivo HT 
+        // para cada código. Si no tienes archivo, deja 'null'.
+        // Los archivos deben estar en la carpeta './documentos_mp/'
+        const inventarioNombres = [
+            // EJEMPLOS DE ARCHIVOS AGREGADOS:
+            {codigo: "A1101", descripcion: "Extrafine \"N\" aluminium paste", archivo_ht: "HT_A1101.pdf"},
+            {codigo: "A1102", descripcion: "Anhidrido de alcohol eter", archivo_ht: "HT_A1102.pdf"},
+            {codigo: "A1103", descripcion: "Lanolin anhydrous", archivo_ht: "HT_A1103.pdf"},
+            {codigo: "A1104", descripcion: "Butyl tin carboxylate", archivo_ht: "HT_A1104.pdf"},
+            {codigo: "A1105", descripcion: "Aluminium silicate (kaolin clay)", archivo_ht: "HT_A1105.pdf"},
+            {codigo: "A1106", descripcion: "Butyl alcohol", archivo_ht: "HT_A1106.pdf"},
+            {codigo: "A1107", descripcion: "Rubber isobutylene-isoprene", archivo_ht: "HT_A1107.pdf"},
+            {codigo: "A1108", descripcion: "Isobutylene isoprene rubber", archivo_ht: "HT_A1108.pdf"},
+            {codigo: "A1109", descripcion: "Hydrocarbon mixture 100", archivo_ht: "HT_A1109.pdf"},
+            {codigo: "A1110", descripcion: "Dimethyl siloxane-poly polyether 300", archivo_ht: "HT_A1110.pdf"},
+            {codigo: "A1111", descripcion: "Phenolic antioxidant", archivo_ht: "HT_A1111.pdf"},
+            {codigo: "A1112", descripcion: "Resin solution", archivo_ht: null},
+            {codigo: "A1113", descripcion: "Acrylic solution", archivo_ht: null},
+            {codigo: "A1114", descripcion: "Epoxy resin BPA/ epichlorhydrin 669", archivo_ht: "HT_A1114.pdf"}, 
+            {codigo: "A1115", descripcion: "Diisobutyl ketone", archivo_ht: "HT_A1115.pdf"},
+            {codigo: "A1116", descripcion: "Polyester resin 55%SL", archivo_ht: "HT_A1116.pdf"},
+            {codigo: "A1117", descripcion: "Mistura de esteres de acido dibas", archivo_ht: "HT_A1117.pdf"},
+            {codigo: "A1118", descripcion: "Hyrocarbon mixture 150", archivo_ht: "HT_A1118.pdf"},
+            {codigo: "A1119", descripcion: "Titanium dioxide rutile", archivo_ht: "HT_A1119.pdf"},
+            {codigo: "A1120", descripcion: "Ethylene glycol monobutyl ether", archivo_ht: "HT_A1120.pdf"},
+            {codigo: "A1121", descripcion: "Diethylene glycol monobutylether", archivo_ht: "HT_A1121.pdf"},
+            {codigo: "A1122", descripcion: "Epoxyester resin", archivo_ht: "HT_A1122.pdf"},
+            {codigo: "A1123", descripcion: "Isophorone", archivo_ht: "HT_A1123.pdf"},
+            {codigo: "A1124", descripcion: "Polyfluo 540", archivo_ht: "HT_A1124.pdf"},
+            {codigo: "A1125", descripcion: "Stannous octoate stabilised", archivo_ht: "HT_A1125.pdf"},
+            {codigo: "A1126", descripcion: "Lanco TF 1780 EFC", archivo_ht: "HT_A1126.pdf"},
+            {codigo: "A1127", descripcion: "Polyester res.styrene free 60%sl", archivo_ht: "HT_A1127.pdf"},
+            {codigo: "A1128", descripcion: "$Ca/zn$ stearate", archivo_ht: "HT_A1128.pdf"},
+            {codigo: "A1129", descripcion: "Copolyester saturated LMW resin", archivo_ht: "HT_A1129.pdf"},
+            {codigo: "A1130", descripcion: "Polyester resin", archivo_ht: "HT_A1130.pdf"},
+            {codigo: "A1131", descripcion: "Butylated urea-formaldehyde", archivo_ht: "HT_A1131.pdf"},
+            {codigo: "A1132", descripcion: "Epoxy resin, liquid", archivo_ht: "HT_A1132.pdf"},
+            {codigo: "A1133", descripcion: "Epoxy resin modified SL", archivo_ht: "HT_A1133.pdf"},
+            {codigo: "A1134", descripcion: "Plastopal H85 EB LF", archivo_ht: "HT_A1134.pdf"},
+            {codigo: "A1135", descripcion: "Isocyanate-poly bik cycloalipha", archivo_ht: "HT_A1135.pdf"},
+            {codigo: "A1136", descripcion: "Polysiloxane in cyclohexanone sl", archivo_ht: "HT_A1136.pdf"},
+            {codigo: "A1137", descripcion: "Magnesium oxide", archivo_ht: "HT_A1137.pdf"},
+            {codigo: "A1138", descripcion: "Zinc oxide <100ppm PBO", archivo_ht: "HT_A1138.pdf"},
+            {codigo: "A1139", descripcion: "Alcohol bencilico", archivo_ht: "HT_A1139.pdf"},
+            {codigo: "A1140", descripcion: "Polyester adipate", archivo_ht: "HT_A1140.pdf"},
+            {codigo: "A1141", descripcion: "Copolimero acrilico", archivo_ht: null},
+            {codigo: "A1142", descripcion: "Acrylate copolymer sl in naphtha", archivo_ht: null},
+            {codigo: "A1143", descripcion: "Epoxy resin", archivo_ht: null},
+            {codigo: "A1144", descripcion: "Phosphoric acid 85%", archivo_ht: null},
+            {codigo: "A1145", descripcion: "C.I. violet 23 in solvent sl", archivo_ht: null},
+            {codigo: "A1146", descripcion: "Phenolic resin", archivo_ht: null},
+            {codigo: "A1147", descripcion: "Phthalocyanine blue", archivo_ht: null},
+            {codigo: "A1148", descripcion: "Low aromatic high flash", archivo_ht: null},
+            {codigo: "A1149", descripcion: "Polyester resin saturated 55% sl", archivo_ht: null},
+            {codigo: "A1150", descripcion: "Carnauba wax dispersion", archivo_ht: null},
+            {codigo: "A1151", descripcion: "Resina fenolica methylon", archivo_ht: null},
+            {codigo: "A1152", descripcion: "Phenolic res.unplasticized (53%)", archivo_ht: null},
+            {codigo: "A1153", descripcion: "Polyvinyl chloride resin", archivo_ht: null},
+            {codigo: "A1154", descripcion: "Channel carbon black mpc", archivo_ht: null},
+            {codigo: "A1155", descripcion: "Stearic fatty acid- $-nf/fg$ flake", archivo_ht: null},
+            {codigo: "A1156", descripcion: "Rosin partially hidrogenated", archivo_ht: null},
+            {codigo: "A1157", descripcion: "Epoxy resin sl", archivo_ht: null},
+            {codigo: "A1158", descripcion: "Dimethyl siloxane-polypolyether 310", archivo_ht: null},
+            {codigo: "A1159", descripcion: "Phenolic resin butylated", archivo_ht: null},
+            {codigo: "A1160", descripcion: "Benzoguanamine-formaldehyd res", archivo_ht: null},
+            {codigo: "A1161", descripcion: "Styrene butadiene rubber", archivo_ht: null},
+            {codigo: "A1162", descripcion: "Acrylic resin (acrylamide type)", archivo_ht: null},
+            {codigo: "A1163", descripcion: "Petrolatum wax", archivo_ht: null},
+            {codigo: "A1164", descripcion: "Acetic acid glacial", archivo_ht: null},
+            {codigo: "A1165", descripcion: "Aromat. sulphonic in isopropanol", archivo_ht: null},
+            {codigo: "A1166", descripcion: "Block copolymer hmw", archivo_ht: null},
+            {codigo: "A1167", descripcion: "Ptfe/pe blend", archivo_ht: null},
+            {codigo: "A1168", descripcion: "Polivinyl-butiral", archivo_ht: null},
+            {codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: null},
+            {codigo: "A1170", descripcion: "Hexane high purity 95%", archivo_ht: null},
+            {codigo: "A1171", descripcion: "Thiophen benzoxazole derivate", archivo_ht: null},
+            {codigo: "A1172", descripcion: "Phenol formaldehyde resin", archivo_ht: null},
+            {codigo: "A1173", descripcion: "Vc/va/maleic acid terpol", archivo_ht: null},
+            {codigo: "A1174", descripcion: "Modified castor oil derivative", archivo_ht: null},
+            {codigo: "A1175", descripcion: "Melamine formaldehyde resin", archivo_ht: null},
+            {codigo: "A1176", descripcion: "Xylene", archivo_ht: null},
+            {codigo: "A1177", descripcion: "Cellulose acetate butyrate", archivo_ht: null},
+            {codigo: "A1178", descripcion: "Propylene glycol methyl acetate", archivo_ht: null},
+            {codigo: "A1179", descripcion: "Epoxy resin BPA/epichlorhydrin 667", archivo_ht: null},
+            {codigo: "A1180", descripcion: "Hydroxy polyester resin", archivo_ht: null},
+            {codigo: "A1181", descripcion: "Melamine formaldehyde resin 55% sl", archivo_ht: null},
+            {codigo: "A1182", descripcion: "1-Methoxy-2-propanol", archivo_ht: null}
+        ];
+
+        // ------------------------------------------------------------------
+        // --- FUNCIÓN DE BÚSQUEDA BIDIRECCIONAL ---
+        // ------------------------------------------------------------------
+        function buscarBidireccional() {
+            let input = document.getElementById('searchInput').value.toUpperCase().trim();
+            const container = document.getElementById('results');
+            container.innerHTML = ""; 
+
+            if(input === "") {
+                container.innerHTML = "<p class='error'>Por favor ingrese un código o parte de la descripción.</p>";
+                return;
+            }
+            
+            // 1. Buscamos todas las coincidencias en CÓDIGO o DESCRIPCIÓN
+            const resultados = inventarioNombres.filter(item => 
+                item.codigo.toUpperCase().includes(input) || item.descripcion.toUpperCase().includes(input)
+            );
+
+            if (resultados.length > 0) {
+                resultados.forEach(materiaPrima => {
+                    
+                    // Función para resaltar la parte del texto que coincide con la búsqueda
+                    const highlightMatch = (text, query) => {
+                        const regex = new RegExp(query, 'gi'); // 'g': global, 'i': insensible a mayúsculas
+                        return text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+                    };
+
+                    const codigoResaltado = highlightMatch(materiaPrima.codigo, input);
+                    const descripcionResaltada = highlightMatch(materiaPrima.descripcion, input);
+                    
+                    // LÓGICA DEL BOTÓN: Crea el botón solo si archivo_ht NO es null
+                    const htButton = materiaPrima.archivo_ht 
+                        // La ruta es ./documentos_mp/nombre_del_archivo.pdf
+                        ? `<a href="./documentos_mp/${materiaPrima.archivo_ht}" target="_blank" class="ht-button">📄 Ver Hoja Técnica</a>`
+                        : `<span class="no-ht-message">Hoja Técnica no disponible</span>`;
+
+
+                    const tarjeta = `
+                        <div class="card">
+                            <h3>Código: ${codigoResaltado}</h3>
+                            <p>Descripción: ${descripcionResaltada}</p>
+                            <div class="card-actions">
+                                ${htButton}
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += tarjeta;
+                });
+            } else {
+                container.innerHTML = `
+                    <div class='error'>
+                        No se encontró un resultado que coincida con "${input}" en Código o Nombre.
+                    </div>`;
+            }
+        }
+        
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") buscarBidireccional();
+        });
+    </script>
+
+</body>
+</html>

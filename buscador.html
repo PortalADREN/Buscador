@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador ADREN</title>
+    <style>
+        /* DEFINICIÓN DE COLORES */
+        :root {
+            --gris-claro-fondo: #f4f6f9; /* Fondo de la página y contenido (nuevo) */
+            --blanco-puro: #ffffff; /* Fondo del Header (nuevo) */
+            --verde-boton: #28a745;
+            --verde-boton-hover: #218838;
+            --rojo-borde: #e1000f;
+        }
+
+        /* ESTILOS GENERALES (FONDO GRIS CLARO) */
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background-color: var(--gris-claro-fondo); /* Fondo de la página */
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+        
+        /* HEADER (FRANJA SUPERIOR - BLANCO) */
+        header { 
+            width: 100%; 
+            background-color: var(--blanco-puro); /* Fondo BLANCO */
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-sizing: border-box; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sutil sombra */
+        }
+
+        /* AJUSTE DEL LOGO (IMAGEN PNG) */
+        .header-logo img { 
+            height: 45px; 
+            width: auto;  
+            display: block;
+            /* Si tu PNG ya es verde, se verá perfecto. Si no, puedes aplicar el filtro aquí */
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        main { 
+            width: 100%; 
+            max-width: 800px; 
+            margin-top: 50px; 
+            text-align: center; 
+            padding: 20px; 
+        }
+        
+        h2 { color: #333; }
+
+        /* BUSCADOR */
+        .search-container { position: relative; width: 100%; }
+        input[type="text"] { 
+            width: 100%; 
+            padding: 15px 20px 15px 50px; 
+            border-radius: 30px; 
+            border: 1px solid #ccc; 
+            font-size: 16px; 
+            outline: none; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            box-sizing: border-box;
+            background-color: var(--blanco-puro); /* Fondo blanco para el input */
+        }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #666; }
+        
+        /* BOTÓN DE BÚSQUEDA (VERDE) */
+        button { 
+            margin-top: 20px; 
+            padding: 12px 30px; 
+            background-color: var(--verde-boton); 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover { 
+            background-color: var(--verde-boton-hover); 
+        }
+
+        /* RESULTADOS (TARJETAS - GRIS CLARO) */
+        #results { margin-top: 30px; width: 100%; text-align: left; }
+        .card { 
+            background: var(--gris-claro-fondo); /* Fondo GRIS CLARO para las tarjetas */
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            border-left: 6px solid var(--rojo-borde); /* Borde rojo */
+        }
+        .card h3 { margin-top: 0; color: #333; margin-bottom: 5px;}
+        
+        /* BOTONES DE DESCARGA (Azul y Rojo) */
+        .btn-group { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;}
+        .btn-download {
+            text-decoration: none; color: white; font-weight: bold; padding: 10px 15px; border-radius: 4px; font-size: 14px; display: flex; align-items: center;
+            transition: opacity 0.3s ease;
+        }
+        .btn-tds { background-color: #0056b3; } /* Azul */
+        .btn-sds { background-color: #d9534f; } /* Rojo */
+        .btn-download:hover { opacity: 0.9; }
+        
+        .error { color: #cc0000; font-weight: bold; text-align: center; margin-top: 20px;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="./logo_adren.png" alt="Logo ADREN"> 
+        </div>
+        <div style="color: #666; font-size: 14px; font-weight: bold;">
+            Base de Datos Técnica y de Seguridad
+        </div>
+    </header>
+
+    <main>
+        <h2>Busque su producto ADREN</h2>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Ingrese código (Ej: AV101)...">
+        </div>
+        
+        <button onclick="buscarProducto()">Buscar Documentos</button>
+
+        <div id="results"></div>
+    </main>
+
+    <script>
+        // --- CONFIGURACIÓN DE PRODUCTOS ---
+        const listaCodigos = [
+            "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
+            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112"
+        ];
+
+        const baseDeDatos = listaCodigos.map(codigo => {
+            return {
+                codigoBusqueda: codigo,
+                nombreMostrar: "ADREN " + codigo, 
+                tds: "./documentos/TDS_ADREN_" + codigo + ".pdf",
+                sds: "./documentos/SDS_ADREN_" + codigo + ".pdf"
+            };
+        });
+
+        // --- FUNCIÓN DE BÚSQUEDA ---
+        function buscarProducto() {
+            let input = document.getElementById('searchInput').value.toUpperCase().trim();
+            const container = document.getElementById('results');
+            container.innerHTML = ""; 
+
+            input = input.replace("ADREN", "").replace("_", "").trim();
+
+            if(input === "") {
+                container.innerHTML = "<p class='error'>Por favor ingrese un código (Ej: AV101).</p>";
+                return;
+            }
+
+            const resultados = baseDeDatos.filter(producto => 
+                producto.codigoBusqueda.includes(input)
+            );
+
+            if (resultados.length > 0) {
+                resultados.forEach(prod => {
+                    const tarjeta = `
+                        <div class="card">
+                            <h3>${prod.nombreMostrar}</h3>
+                            <p>Código de referencia: ${prod.codigoBusqueda}</p>
+                            <div class="btn-group">
+                                <a href="${prod.tds}" class="btn-download btn-tds" target="_blank">📄 TDS - Ficha Técnica</a>
+                                <a href="${prod.sds}" class="btn-download btn-sds" target="_blank">⚠️ SDS - Ficha de Seguridad</a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += tarjeta;
+                });
+            } else {
+                container.innerHTML = `
+                    <div class='error'>
+                        No se encontró el producto "ADREN ${input}". <br>
+                        <small>Verifique que sea un código entre AV101 y AV112.</small>
+                    </div>`;
+            }
+        }
+        
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") buscarProducto();
+        });
+    </script>
+
+</body>
+</html>

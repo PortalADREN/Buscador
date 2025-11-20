@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Buscadores ADREN</title>
+    <style>
+        /* ESTILOS CSS */
+        :root {
+            --gris-claro-fondo: #f4f6f9;
+            --blanco-puro: #ffffff;
+            --color-principal: #007bff; 
+            --color-principal-hover: #0056b3;
+            --color-secundario: #28a745; /* Verde */
+            --color-secundario-hover: #1e7e34;
+        }
+
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background-color: var(--gris-claro-fondo); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+        
+        header { 
+            width: 100%; 
+            background-color: var(--blanco-puro); 
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-sizing: border-box; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header-logo img { height: 45px; width: auto; display: block; }
+
+        main { width: 100%; max-width: 800px; margin-top: 80px; text-align: center; padding: 20px; }
+        
+        h1 { color: #333; margin-bottom: 50px; }
+
+        /* CONTENEDOR DE BOTONES */
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap; /* Para que se adapten a pantallas pequeñas */
+        }
+
+        /* ESTILO BASE DEL BOTÓN */
+        .portal-button {
+            padding: 25px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none; /* Quitamos el subrayado del enlace */
+            color: white;
+            min-width: 250px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+
+        /* BOTÓN 1: PRODUCTO TERMINADO (Documentos) */
+        .pt-button {
+            background-color: var(--color-secundario); /* Verde */
+        }
+        .pt-button:hover {
+            background-color: var(--color-secundario-hover);
+        }
+
+        /* BOTÓN 2: MATERIA PRIMA (Nombres/Códigos) */
+        .mp-button {
+            background-color: var(--color-principal); /* Azul */
+        }
+        .mp-button:hover {
+            background-color: var(--color-principal-hover);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="./logo_adren.png" alt="Logo ADREN"> 
+        </div>
+        <div style="color: #666; font-size: 14px; font-weight: bold;">
+            Menú Principal de Consultas
+        </div>
+    </header>
+
+    <main>
+        <h1>Seleccione el tipo de consulta que desea realizar</h1>
+        
+        <div class="button-container">
+            
+            <a href="buscador.html" class="portal-button pt-button">
+                <span>📄 Buscar Producto Terminado</span>
+                <small>(Fichas Técnicas y de Seguridad)</small>
+            </a>
+
+            <a href="buscador_mp.html" class="portal-button mp-button">
+                <span>🔎 Buscar Materia Prima</span>
+                <small>(Consulta de Código y Nombre)</small>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
