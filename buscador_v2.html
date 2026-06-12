@@ -103,7 +103,6 @@
         /* Área del Buscador (Oculta al principio) */
         .search-section {
             display: none;
-            animation: fadeIn 0.3s ease-in-out;
         }
 
         .search-wrapper {
@@ -254,3 +253,270 @@
             font-size: 13px;
             font-style: italic;
             white-space: nowrap;
+        }
+
+        .highlight {
+            background-color: rgba(22, 163, 74, 0.15);
+            padding: 0 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="./logo_adren_pag.jpg" alt="ADREN"> 
+        </div>
+        <div class="header-title">Centro de Documentación Técnica</div>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <h1>Hojas Técnicas y de Seguridad</h1>
+            <p id="mainSubtitle">Seleccione el tipo de documentación que desea buscar.</p>
+        </div>
+
+        <div class="selection-container" id="initialMenu">
+            <div class="select-card" onclick="openSearch('productos')">
+                <span class="icon">📦</span>
+                <h2>Productos Terminados</h2>
+            </div>
+            <div class="select-card" onclick="openSearch('materias')">
+                <span class="icon">🧪</span>
+                <h2>Materias Primas</h2>
+            </div>
+        </div>
+
+        <div class="search-section" id="searchSection">
+            <button class="btn-back" onclick="resetToMenu()">⬅ Volver a la selección principal</button>
+            
+            <div class="search-wrapper">
+                <input type="text" id="mainSearch" placeholder="Escriba el código o número..." autocomplete="off">
+            </div>
+
+            <div class="status-message" id="textIndicador"></div>
+
+            <div class="results-grid" id="productosContainer"></div>
+            <div class="mp-list" id="materiasContainer" style="display: none;"></div>
+        </div>
+    </main>
+
+    <script>
+        const productosData = [
+            "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
+            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113",
+            "SV001", "SV002", "SV003", "SV004", "SV005", "SV006"
+        ].map(code => ({
+            id: code,
+            name: `ADREN ${code}`,
+            cleanId: code.replace(/[^a-zA-Z0-9]/g, ''), 
+            tdsUrl: `./documentos/TDS_ADREN_${code}.pdf`,
+            sdsUrl: `./documentos/SDS_ADREN_${code}.pdf`
+        }));
+
+        const materiasData = [
+            {codigo: "A1101", descripcion: "Extrafine N aluminium paste", archivo_ht: "HT_A1101.pdf"},
+            {codigo: "A1102", descripcion: "Anhidrido de alcohol eter", archivo_ht: "HT_A1102.pdf"},
+            {codigo: "A1103", descripcion: "Lanolin anhydrous", archivo_ht: "HT_A1103.pdf"},
+            {codigo: "A1104", descripcion: "Butyl tin carboxylate", archivo_ht: "HT_A1104.pdf"},
+            {codigo: "A1105", descripcion: "Aluminium silicate (kaolin clay)", archivo_ht: "HT_A1105.pdf"},
+            {codigo: "A1106", descripcion: "Butyl alcohol", archivo_ht: "HT_A1106.pdf"},
+            {codigo: "A1107", descripcion: "Rubber isobutylene-isoprene", archivo_ht: "HT_A1107.pdf"},
+            {codigo: "A1108", descripcion: "Isobutylene isoprene rubber", archivo_ht: "HT_A1108.pdf"},
+            {codigo: "A1109", descripcion: "Hydrocarbon mixture 100", archivo_ht: "HT_A1109.pdf"},
+            {codigo: "A1110", descripcion: "Dimethyl siloxane-poly polyether 300", archivo_ht: "HT_A1110.pdf"},
+            {codigo: "A1111", descripcion: "Phenolic antioxidant", archivo_ht: "HT_A1111.pdf"},
+            {codigo: "A1112", descripcion: "Resin solution", archivo_ht: null},
+            {codigo: "A1113", descripcion: "Acrylic solution", archivo_ht: null},
+            {codigo: "A1114", descripcion: "Epoxy resin BPA/ epichlorhydrin 669", archivo_ht: "HT_A1114.pdf"}, 
+            {codigo: "A1115", descripcion: "Diisobutyl ketone", archivo_ht: "HT_A1115.pdf"},
+            {codigo: "A1116", descripcion: "Polyester resin 55%SL", archivo_ht: "HT_A1116.pdf"},
+            {codigo: "A1117", descripcion: "Mistura de esteres de acido dibas", archivo_ht: "HT_A1117.pdf"},
+            {codigo: "A1118", descripcion: "Hyrocarbon mixture 150", archivo_ht: "HT_A1118.pdf"},
+            {codigo: "A1119", descripcion: "Titanium dioxide rutile", archivo_ht: "HT_A1119.pdf"},
+            {codigo: "A1120", descripcion: "Ethylene glycol monobutyl ether", archivo_ht: "HT_A1120.pdf"},
+            {codigo: "A1121", descripcion: "Diethylene glycol monobutylether", archivo_ht: "HT_A1121.pdf"},
+            {codigo: "A1122", descripcion: "Epoxyester resin", archivo_ht: "HT_A1122.pdf"},
+            {codigo: "A1123", descripcion: "Isophorone", archivo_ht: "HT_A1123.pdf"},
+            {codigo: "A1124", descripcion: "Polyfluo 540", archivo_ht: "HT_A1124.pdf"},
+            {codigo: "A1125", descripcion: "Stannous octoate stabilised", archivo_ht: "HT_A1125.pdf"},
+            {codigo: "A1126", descripcion: "Lanco TF 1780 EFC", archivo_ht: "HT_A1126.pdf"},
+            {codigo: "A1127", descripcion: "Polyester res.styrene free 60%sl", archivo_ht: "HT_A1127.pdf"},
+            {codigo: "A1128", descripcion: "Ca/zn stearate", archivo_ht: "HT_A1128.pdf"},
+            {codigo: "A1129", descripcion: "Copolyester saturated LMW resin", archivo_ht: "HT_A1129.pdf"},
+            {codigo: "A1130", descripcion: "Polyester resin", archivo_ht: "HT_A1130.pdf"},
+            {codigo: "A1131", descripcion: "Butylated urea-formaldehyde", archivo_ht: "HT_A1131.pdf"},
+            {codigo: "A1132", descripcion: "Epoxy resin, liquid", archivo_ht: "HT_A1132.pdf"},
+            {codigo: "A1133", descripcion: "Epoxy resin modified SL", archivo_ht: "HT_A1133.pdf"},
+            {codigo: "A1134", descripcion: "Plastopal H85 EB LF", archivo_ht: "HT_A1134.pdf"},
+            {codigo: "A1135", descripcion: "Isocyanate-poly bik cycloalipha", archivo_ht: "HT_A1135.pdf"},
+            {codigo: "A1136", descripcion: "Polysiloxane in cyclohexanone sl", archivo_ht: "HT_A1136.pdf"},
+            {codigo: "A1137", descripcion: "Magnesium oxide", archivo_ht: "HT_A1137.pdf"},
+            {codigo: "A1138", descripcion: "Zinc oxide <100ppm PBO", archivo_ht: "HT_A1138.pdf"},
+            {codigo: "A1139", descripcion: "Alcohol bencilico", archivo_ht: "HT_A1139.pdf"},
+            {codigo: "A1140", descripcion: "Polyester adipate", archivo_ht: "HT_A1140.pdf"},
+            {codigo: "A1141", descripcion: "Copolimero acrilico", archivo_ht: "HT_A1141.pdf"},
+            {codigo: "A1142", descripcion: "Acrylate copolymer sl in naphtha", archivo_ht: "HT_A1142.pdf"},
+            {codigo: "A1143", descripcion: "Epoxy resin", archivo_ht: "HT_A1143.pdf"},
+            {codigo: "A1144", descripcion: "Phosphoric acid 85%", archivo_ht: null},
+            {codigo: "A1145", descripcion: "C.I. violet 23 in solvent sl", archivo_ht: "HT_A1145.pdf"},
+            {codigo: "A1146", descripcion: "Phenolic resin", archivo_ht: "HT_A1146.pdf"},
+            {codigo: "A1147", descripcion: "Phthalocyanine blue", archivo_ht: null},
+            {codigo: "A1148", descripcion: "Low aromatic high flash", archivo_ht: "HT_A1148.pdf"},
+            {codigo: "A1149", descripcion: "Polyester resin saturated 55% sl", archivo_ht: "HT_A1149.pdf"},
+            {codigo: "A1150", descripcion: "Carnauba wax dispersion", archivo_ht: null},
+            {codigo: "A1151", descripcion: "Resina fenolica methylon", archivo_ht: "HT_A1151.pdf"},
+            {codigo: "A1152", descripcion: "Phenolic res.unplasticized (53%)", archivo_ht: "HT_A1152.pdf"},
+            {codigo: "A1153", descripcion: "Polyvinyl chloride resin", archivo_ht: "HT_A1153.pdf"},
+            {codigo: "A1154", descripcion: "Channel carbon black mpc", archivo_ht: "HT_A1154.pdf"},
+            {codigo: "A1155", descripcion: "Stearic fatty acid- nf/fg flake", archivo_ht: "HT_A1155.pdf"},
+            {codigo: "A1156", descripcion: "Rosin partially hidrogenated", archivo_ht: "HT_A1156.pdf"},
+            {codigo: "A1157", descripcion: "Epoxy resin sl", archivo_ht: "HT_A1157.pdf"},
+            {codigo: "A1158", descripcion: "Dimethyl siloxane-polypolyether 310", archivo_ht: "HT_A1158.pdf"},
+            {codigo: "A1159", descripcion: "Phenolic resin butylated", archivo_ht: "HT_A1159.pdf"},
+            {codigo: "A1160", descripcion: "Benzoguanamine-formaldehyd res", archivo_ht: "HT_A1160.pdf"},
+            {codigo: "A1161", descripcion: "Styrene butadiene rubber", archivo_ht: "HT_A1161.pdf"},
+            {codigo: "A1162", descripcion: "Acrylic resin (acrylamide type)", archivo_ht: "HT_A1162.pdf"},
+            {codigo: "A1163", descripcion: "Petrolatum wax", archivo_ht: "HT_A1163.pdf"},
+            {codigo: "A1164", descripcion: "Acetic acid glacial", archivo_ht: "HT_A1164.pdf"},
+            {codigo: "A1165", descripcion: "Aromat. sulphonic in isopropanol", archivo_ht: "HT_A1165.pdf"},
+            {codigo: "A1166", descripcion: "Block copolymer hmw", archivo_ht: "HT_A1166.pdf"},
+            {codigo: "A1167", descripcion: "Ptfe/pe blend", archivo_ht: "HT_A1167.pdf"},
+            {codigo: "A1168", descripcion: "Polivinyl-butiral", archivo_ht: "HT_A1168.pdf"},
+            {codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: "HT_A1169.pdf"},
+            {codigo: "A1170", descripcion: "Hexane high purity 95%", archivo_ht: "HT_A1170.pdf"},
+            {codigo: "A1171", descripcion: "Thiophen benzoxazole derivate", archivo_ht: "HT_A1171.pdf"},
+            {codigo: "A1172", descripcion: "Phenol formaldehyde resin", archivo_ht: "HT_A1172.pdf"},
+            {codigo: "A1173", descripcion: "Vc/va/maleic acid terpol", archivo_ht: "HT_A1173.pdf"},
+            {codigo: "A1174", descripcion: "Modified castor oil derivative", archivo_ht: "HT_A1174.pdf"},
+            {codigo: "A1175", descripcion: "Melamine formaldehyde resin", archivo_ht: "HT_A1175.pdf"},
+            {codigo: "A1176", descripcion: "Xylene", archivo_ht: "HT_A1176.pdf"},
+            {codigo: "A1177", descripcion: "Cellulose acetate butyrate", archivo_ht: "HT_A1177.pdf"},
+            {codigo: "A1178", descripcion: "Propylene glycol methyl acetate", archivo_ht: "HT_A1178.pdf"},
+            {codigo: "A1179", descripcion: "Epoxy resin BPA/epichlorhydrin 667", archivo_ht: "HT_A1179.pdf"},
+            {codigo: "A1180", stroke:"Hydroxy polyester resin", archivo_ht: "HT_A1180.pdf"},
+            {codigo: "A1181", descripcion: "Melamine formaldehyde resin 55% sl", archivo_ht: "HT_A1181.pdf"},
+            {codigo: "A1182", descripcion: "1-Methoxy-2-propanol", archivo_ht: "HT_A1182.pdf"}
+        ];
+
+        let selectedModule = '';
+        const mainSearch = document.getElementById('mainSearch');
+        const initialMenu = document.getElementById('initialMenu');
+        const searchSection = document.getElementById('searchSection');
+        const mainSubtitle = document.getElementById('mainSubtitle');
+        const textIndicador = document.getElementById('textIndicador');
+        const productosContainer = document.getElementById('productosContainer');
+        const materiasContainer = document.getElementById('materiasContainer');
+
+        function openSearch(moduleType) {
+            selectedModule = moduleType;
+            initialMenu.style.display = 'none';
+            searchSection.style.display = 'block';
+            mainSearch.value = "";
+            productosContainer.innerHTML = "";
+            materiasContainer.innerHTML = "";
+
+            if (moduleType === 'productos') {
+                mainSubtitle.innerText = "Buscador de Productos Terminados";
+                textIndicador.innerText = "Comience a escribir para buscar un producto terminado de las series AV o SV.";
+                productosContainer.style.display = 'grid';
+                materiasContainer.style.display = 'none';
+                mainSearch.placeholder = "Ej: AV101, SV003...";
+            } else {
+                mainSubtitle.innerText = "Buscador de Materias Primas";
+                textIndicador.innerText = "Ingrese un código o descripción para iniciar la búsqueda de materia prima.";
+                productosContainer.style.display = 'none';
+                materiasContainer.style.display = 'flex';
+                mainSearch.placeholder = "Ej: A1103, Resin, Alcohol...";
+            }
+            setTimeout(() => mainSearch.focus(), 50);
+        }
+
+        function resetToMenu() {
+            selectedModule = '';
+            searchSection.style.display = 'none';
+            initialMenu.style.display = 'flex';
+            mainSubtitle.innerText = "Seleccione el tipo de documentación que desea buscar.";
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function executeGlobalSearch() {
+            let rawQuery = mainSearch.value.trim();
+            let query = rawQuery.toUpperCase();
+
+            if (query === "") {
+                textIndicador.style.display = "block";
+                productosContainer.innerHTML = "";
+                materiasContainer.innerHTML = "";
+                return;
+            }
+
+            textIndicador.style.display = "none";
+
+            if (selectedModule === 'productos') {
+                let cleanQuery = query.replace("ADREN", "").replace(/[^A-Z0-9]/g, "");
+                const filtered = productosData.filter(item => item.cleanId.includes(cleanQuery));
+
+                if (filtered.length > 0) {
+                    productosContainer.innerHTML = filtered.map(item => `
+                        <div class="product-card">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <span class="sku">Ref: ${item.id}</span>
+                            </div>
+                            <div class="actions-layout">
+                                <a href="${item.tdsUrl}" class="btn-action btn-action-tds" target="_blank">
+                                    📄 Hoja Técnica (TDS)
+                                </a>
+                                <a href="${item.sdsUrl}" class="btn-action btn-action-sds" target="_blank">
+                                    ⚠️ Hoja de Seguridad (SDS)
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    productosContainer.innerHTML = `<div style="grid-column: 1/-1; color: #d93025; font-weight: 500;">No se encontraron resultados para "${rawQuery}".</div>`;
+                }
+            } else {
+                const filteredMP = materiasData.filter(item => {
+                    const cod = item.codigo ? item.codigo.toUpperCase() : '';
+                    const desc = item.descripcion ? item.descripcion.toUpperCase() : '';
+                    return cod.includes(query) || desc.includes(query);
+                });
+
+                if (filteredMP.length > 0) {
+                    materiasContainer.innerHTML = filteredMP.map(item => {
+                        const codigoResaltado = highlightMatch(item.codigo || '', query);
+                        const descripcionResaltada = highlightMatch(item.descripcion || '', query);
+                        
+                        const actionElement = item.archivo_ht 
+                            ? `<a href="./documentos_mp/${item.archivo_ht}" target="_blank" class="btn-action btn-action-mp-ht">📄 Ver Hoja Técnica</a>`
+                            : `<span class="no-file-msg">Hoja Técnica no disponible</span>`;
+
+                        return `
+                            <div class="mp-card">
+                                <div class="mp-info">
+                                    <h3>Código: ${codigoResaltado}</h3>
+                                    <p>Descripción: ${descripcionResaltada}</p>
+                                </div>
+                                <div>
+                                    ${actionElement}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    materiasContainer.innerHTML = `<div style="color: #d93025; font-weight: 500;">No se encontraron resultados para "${rawQuery}".</div>`;
+                }
+            }
+        }
+
+        mainSearch.addEventListener('input', executeGlobalSearch);
+    </script>
+</body>
+</html>
