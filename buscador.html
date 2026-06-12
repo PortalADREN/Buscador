@@ -140,7 +140,7 @@
         // --- CONFIGURACIÓN DE PRODUCTOS ---
         const listaCodigos = [
             "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
-            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113", "SV001", "SV002", "SV003", "SV004,"SV005","SV006"
+            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113", 
         ];
 
         const baseDeDatos = listaCodigos.map(codigo => {
@@ -187,7 +187,7 @@
                 container.innerHTML = `
                     <div class='error'>
                         No se encontró el producto "ADREN ${input}". <br>
-                        <small>Verifique que sea un código entre AV101 y SV006.</small>
+                        <small>Verifique que sea un código entre AV101 y av113.</small>
                     </div>`;
             }
         }
