@@ -28,20 +28,25 @@
             min-height: 100vh;
         }
 
-        /* HEADER PREMIUM */
+        /* HEADER PREMIUM OPTIMIZADO */
         header {
             background-color: var(--blanco);
             border-bottom: 1px solid var(--borde);
-            padding: 15px 50px;
+            padding: 20px 50px; /* Un poco más de espacio vertical */
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
+        /* MEJORA DE CALIDAD Y TAMAÑO DEL LOGO */
         .header-logo img {
-            height: 40px;
+            height: 55px; /* Logo más grande y corporativo */
             width: auto;
+            display: block;
+            /* Tecnologías para forzar la máxima nitidez en los navegadores */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .header-title {
@@ -246,7 +251,6 @@
     </main>
 
     <script>
-        // DATA CENTRALIZADA
         const catalogData = [
             "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
             "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113",
@@ -254,7 +258,7 @@
         ].map(code => ({
             id: code,
             name: `ADREN ${code}`,
-            cleanId: code.replace(/[^a-zA-Z0-9]/g, ''), // Remueve caracteres raros
+            cleanId: code.replace(/[^a-zA-Z0-9]/g, ''), 
             tdsUrl: `./documentos/TDS_ADREN_${code}.pdf`,
             sdsUrl: `./documentos/SDS_ADREN_${code}.pdf`
         }));
@@ -267,7 +271,6 @@
         }
 
         function executeSearch() {
-            // Limpieza inteligente del input: quita "adren", guiones, espacios y lo pasa a mayúsculas
             let query = searchInput.value.toUpperCase()
                                          .replace("ADREN", "")
                                          .replace(/[^A-Z0-9]/g, "")
@@ -305,10 +308,7 @@
             }
         }
 
-        // Evento 'input': Ejecuta la búsqueda instantáneamente al escribir
         searchInput.addEventListener('input', executeSearch);
-
-        // Renderizado inicial al cargar la página
         renderInitialMessage();
     </script>
 </body>
