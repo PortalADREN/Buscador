@@ -2,620 +2,210 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Técnico ADREN | Base de Datos Integral</title>
+    <title>Centro de Documentación Técnica - ADREN</title>
     <style>
-        :root {
-            --bg-principal: #f1f5f9; 
-            --blanco: #ffffff;
-            --texto-principal: #1e293b;
-            --texto-secundario: #475569;
-            --verde-adren: #28a745;
-            --rojo-adren: #e1000f;
-            --rojo-hover: #c4000d;
-            --azul-tds: #0284c7;
-            --borde: #cbd5e1;
-            --resaltado-mp: #16a34a;
-        }
-
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-principal);
-            /* INTEGRACIÓN DE IMAGEN DE FONDO INDUSTRIAL */
-            background-image: url('./vpl_0007_shutterstock_82504948.jpg');
-            background-repeat: no-repeat;
-            background-position: calc(100% + 150px) calc(100% + 100px); 
-            background-size: 550px auto; 
-            background-attachment: fixed; 
-            color: var(--texto-principal);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: #f4f6f9;
+            color: #333;
         }
-
-        /* HEADER PREMIUM semi-translúcido */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px); 
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 18px 50px; 
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-            box-sizing: border-box;
-            position: relative;
-            z-index: 10;
         }
-
-        .header-logo img {
-            height: 55px;
-            width: auto;
-            display: block;
-            image-rendering: -webkit-optimize-contrast;
-            filter: contrast(1.05) drop-shadow(0px 1px 1px rgba(0,0,0,0.1));
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            color: #008744;
+            display: flex;
+            align-items: center;
         }
-
+        .logo span {
+            color: #111;
+            margin-left: 5px;
+        }
         .header-title {
             font-size: 14px;
-            color: var(--texto-secundario);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #666;
+            letter-spacing: 1px;
         }
-
-        /* CONTENEDOR PRINCIPAL */
-        main {
-            flex: 1;
-            width: 100%;
-            max-width: 1000px;
+        .container {
+            max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 5;
-        }
-
-        .hero-section {
             text-align: center;
+        }
+        h1 {
+            color: #1a2b4c;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
             margin-bottom: 30px;
         }
-
-        .hero-section h1 {
-            font-size: 30px;
-            color: var(--texto-principal);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        /* SELECTOR DE PESTAÑAS (TABS COPORATIVAS) */
-        .tabs-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 35px;
-        }
-
-        .tab-button {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--borde);
-            padding: 12px 28px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--texto-secundario);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .tab-button:hover {
-            background-color: var(--blanco);
-            color: var(--texto-principal);
-            border-color: var(--texto-secundario);
-        }
-
-        .tab-button.active {
-            background-color: var(--texto-principal);
-            color: var(--blanco);
-            border-color: var(--texto-principal);
-            box-shadow: 0 4px 10px rgba(30, 41, 59, 0.25);
-        }
-
-        /* ÁREA DE BÚSQUEDA */
-        .search-wrapper {
-            max-width: 650px;
-            margin: 0 auto 40px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-
         .search-box {
             position: relative;
-            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
         }
-
         .search-box input {
             width: 100%;
-            padding: 16px 20px 16px 55px;
-            border-radius: 12px;
-            border: 2px solid var(--borde);
+            padding: 15px 20px 15px 45px;
             font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             outline: none;
-            background-color: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             box-sizing: border-box;
         }
-
-        .search-box input:focus {
-            border-color: var(--azul-tds);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-            background-color: var(--blanco);
-        }
-
-        .search-box .icon {
+        .search-box::before {
+            content: "🔍";
             position: absolute;
             left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: var(--texto-secundario);
-            pointer-events: none;
-        }
-
-        /* CUADRÍCULAS Y CONTENEDORES DE RESULTADOS */
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 24px;
-            width: 100%;
-        }
-
-        /* TARJETAS DE PRODUCTO TERMINADO */
-        .product-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(203, 213, 225, 0.7);
-            border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--rojo-adren);
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 24px -5px rgba(0,0,0,0.08);
-            background-color: var(--blanco);
-        }
-
-        .product-card h3, .mp-card h3 {
-            margin: 0 0 8px 0;
+            top: 15px;
             font-size: 18px;
-            color: var(--texto-principal);
+            color: #888;
         }
-
-        .product-card .sku {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-left: 4px solid #d62d20;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 24px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .card h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #1a2b4c;
+        }
+        .card .ref {
             font-size: 12px;
-            color: var(--texto-secundario);
-            background-color: rgba(241, 245, 249, 0.8);
-            padding: 4px 8px;
-            border-radius: 6px;
+            color: #777;
+            background: #f0f2f5;
+            padding: 2px 8px;
+            border-radius: 4px;
             display: inline-block;
             margin-bottom: 20px;
-            font-weight: 600;
         }
-
-        /* TARJETAS DE MATERIA PRIMA (Lista vertical elegante) */
-        .mp-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        .btn {
+            display: block;
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .mp-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border-left: 6px solid var(--azul-tds);
-            border-top: 1px solid rgba(203, 213, 225, 0.6);
-            border-right: 1px solid rgba(203, 213, 225, 0.6);
-            border-bottom: 1px solid rgba(203, 213, 225, 0.6);
-            border-radius: 8px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .mp-card:hover {
-            background-color: var(--blanco);
-            transform: translateX(4px);
-        }
-
-        .mp-info p {
-            margin: 4px 0 0 0;
-            color: var(--texto-secundario);
-            font-size: 15px;
-        }
-
-        /* BOTONES Y ACCIONES */
-        .actions-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            padding: 11px 16px;
-            border-radius: 8px;
-            transition: background-color 0.2s, transform 0.1s;
-            white-space: nowrap;
-        }
-
-        .btn-action:active {
-            transform: scale(0.98);
-        }
-
-        .btn-action-tds {
-            background-color: rgba(2, 132, 199, 0.08);
-            color: var(--azul-tds);
-        }
-        .btn-action-tds:hover {
-            background-color: var(--azul-tds);
-            color: var(--blanco);
-        }
-
-        .btn-action-sds {
-            background-color: rgba(225, 0, 15, 0.06);
-            color: var(--rojo-adren);
-        }
-        .btn-action-sds:hover {
-            background-color: var(--rojo-adren);
-            color: var(--blanco);
-        }
-
-        .btn-action-mp-ht {
-            background-color: var(--rojo-adren);
-            color: var(--blanco);
-            font-size: 13px;
-            padding: 10px 18px;
-        }
-        .btn-action-mp-ht:hover {
-            background-color: var(--rojo-hover);
-        }
-
-        .no-file-msg {
-            color: #94a3b8;
-            font-size: 13px;
-            font-style: italic;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        /* TEXTO RESALTADO */
-        .highlight {
-            color: var(--resaltado-mp);
-            font-weight: 700;
-            background-color: rgba(22, 163, 74, 0.08);
-            padding: 0 2px;
-            border-radius: 4px;
-        }
-
-        /* ESTADOS DE AVISO / ERROR */
-        .status-message {
-            grid-column: 1 / -1;
+            padding: 10px;
+            margin-bottom: 10px;
             text-align: center;
-            padding: 40px;
-            color: var(--texto-secundario);
-            font-size: 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
             font-weight: 500;
-            background-color: rgba(255,255,255,0.4);
-            border-radius: 12px;
-            backdrop-filter: blur(2px);
-            width: 100%;
             box-sizing: border-box;
+        }
+        .btn-tds {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+        .btn-sds {
+            background-color: #fce8e6;
+            color: #d93025;
+        }
+        .btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-logo">
-            <img src="./logo_adren.png" alt="ADREN"> 
+<header>
+    <div class="logo">🗘 ADREN</div>
+    <div class="header-title">CENTRO DE DOCUMENTACIÓN TÉCNICA</div>
+</header>
+
+<div class="container">
+    <h1>Fichas Técnicas y de Seguridad</h1>
+    <div class="subtitle">Consulte y descargue la documentación oficial de nuestros productos.</div>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Escriba el código o número (Ej: 106, SV001)..." onkeyup="filterProducts()">
+    </div>
+
+    <div class="grid" id="productsGrid">
+        <!-- Serie SV -->
+        <div class="card" data-code="SV001">
+            <h3>ADREN SV001</h3>
+            <span class="ref">Ref: SV001</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
         </div>
-        <div class="header-title">Centro de Documentación Técnica</div>
-    </header>
-
-    <main>
-        <div class="hero-section">
-            <h1 id="portalTitle">Hojas Técnicas y de Seguridad</h1>
-            <p id="portalSubtitle">Consulte y descargue la documentación oficial de nuestros productos.</p>
+        <div class="card" data-code="SV002">
+            <h3>ADREN SV002</h3>
+            <span class="ref">Ref: SV002</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
+        </div>
+        <div class="card" data-code="SV003">
+            <h3>ADREN SV003</h3>
+            <span class="ref">Ref: SV003</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
         </div>
 
-        <!-- SELECTOR DE PESTAÑAS INDUSTRIALES -->
-        <div class="tabs-container">
-            <button class="tab-button active" onclick="switchTab('productos')">📦 Productos Terminados</button>
-            <button class="tab-button" onclick="switchTab('materias')">🧪 Materias Primas</button>
+        <!-- Serie AV -->
+        <div class="card" data-code="AV101">
+            <h3>ADREN AV101</h3>
+            <span class="ref">Ref: AV101</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
         </div>
-
-        <div class="search-wrapper">
-            <div class="search-box">
-                <span class="icon" id="searchIcon">🔍</span>
-                <input type="text" id="mainSearch" placeholder="Escriba el código o número (Ej: 106, SV001)..." autocomplete="off">
-            </div>
+        <div class="card" data-code="AV102">
+            <h3>ADREN AV102</h3>
+            <span class="ref">Ref: AV102</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
         </div>
-
-        <!-- CONTENEDORES INDEPENDIENTES DE RESULTADOS -->
-        <div class="results-grid" id="productosContainer">
-            <!-- Renderizado de Productos Terminados -->
+        <div class="card" data-code="AV103">
+            <h3>ADREN AV103</h3>
+            <span class="ref">Ref: AV103</span>
+            <a href="#" class="btn btn-tds">📄 Hoja Técnica (TDS)</a>
+            <a href="#" class="btn btn-sds">⚠️ Hoja de Seguridad (SDS)</a>
         </div>
+    </div>
+</div>
 
-        <div class="mp-list" id="materiasContainer" style="display: none;">
-            <!-- Renderizado de Materias Primas -->
-        </div>
-    </main>
+<script>
+function filterProducts() {
+    var input = document.getElementById('searchInput');
+    var filter = input.value.toUpperCase();
+    var grid = document.getElementById('productsGrid');
+    var cards = grid.getElementsByClassName('card');
 
-    <script>
-        // 1. BASE DE DATOS - PRODUCTOS TERMINADOS (TDS + SDS)
-        const productosData = [
-            "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
-            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113",
-            "SV001", "SV002", "SV003", "SV004", "SV005", "SV006"
-        ].map(code => ({
-            id: code,
-            name: `ADREN ${code}`,
-            cleanId: code.replace(/[^a-zA-Z0-9]/g, ''), 
-            tdsUrl: `./documentos/TDS_ADREN_${code}.pdf`,
-            sdsUrl: `./documentos/SDS_ADREN_${code}.pdf`
-        }));
-
-        // 2. BASE DE DATOS - MATERIAS PRIMAS (SÓLO TDS)
-        const materiasData = [
-            {codigo: "A1101", descripcion: "Extrafine N aluminium paste", archivo_ht: "HT_A1101.pdf"},
-            {codigo: "A1102", descripcion: "Anhidrido de alcohol eter", archivo_ht: "HT_A1102.pdf"},
-            {codigo: "A1103", descripcion: "Lanolin anhydrous", archivo_ht: "HT_A1103.pdf"},
-            {codigo: "A1104", descripcion: "Butyl tin carboxylate", archivo_ht: "HT_A1104.pdf"},
-            {codigo: "A1105", descripcion: "Aluminium silicate (kaolin clay)", archivo_ht: "HT_A1105.pdf"},
-            {codigo: "A1106", descripcion: "Butyl alcohol", archivo_ht: "HT_A1106.pdf"},
-            {codigo: "A1107", descripcion: "Rubber isobutylene-isoprene", archivo_ht: "HT_A1107.pdf"},
-            {codigo: "A1108", descripcion: "Isobutylene isoprene rubber", archivo_ht: "HT_A1108.pdf"},
-            {codigo: "A1109", descripcion: "Hydrocarbon mixture 100", archivo_ht: "HT_A1109.pdf"},
-            {codigo: "A1110", descripcion: "Dimethyl siloxane-poly polyether 300", archivo_ht: "HT_A1110.pdf"},
-            {codigo: "A1111", descripcion: "Phenolic antioxidant", archivo_ht: "HT_A1111.pdf"},
-            {codigo: "A1112", descripcion: "Resin solution", archivo_ht: null},
-            {codigo: "A1113", descripcion: "Acrylic solution", archivo_ht: null},
-            {codigo: "A1114", descripcion: "Epoxy resin BPA/ epichlorhydrin 669", archivo_ht: "HT_A1114.pdf"}, 
-            {codigo: "A1115", descripcion: "Diisobutyl ketone", archivo_ht: "HT_A1115.pdf"},
-            {codigo: "A1116", descripcion: "Polyester resin 55%SL", archivo_ht: "HT_A1116.pdf"},
-            {codigo: "A1117", descripcion: "Mistura de esteres de acido dibas", archivo_ht: "HT_A1117.pdf"},
-            {codigo: "A1118", descripcion: "Hyrocarbon mixture 150", archivo_ht: "HT_A1118.pdf"},
-            {codigo: "A1119", descripcion: "Titanium dioxide rutile", archivo_ht: "HT_A1119.pdf"},
-            {codigo: "A1120", descripcion: "Ethylene glycol monobutyl ether", archivo_ht: "HT_A1120.pdf"},
-            {codigo: "A1121", descripcion: "Diethylene glycol monobutylether", archivo_ht: "HT_A1121.pdf"},
-            {codigo: "A1122", descripcion: "Epoxyester resin", archivo_ht: "HT_A1122.pdf"},
-            {codigo: "A1123", descripcion: "Isophorone", archivo_ht: "HT_A1123.pdf"},
-            {codigo: "A1124", descripcion: "Polyfluo 540", archivo_ht: "HT_A1124.pdf"},
-            {codigo: "A1125", descripcion: "Stannous octoate stabilised", archivo_ht: "HT_A1125.pdf"},
-            {codigo: "A1126", descripcion: "Lanco TF 1780 EFC", archivo_ht: "HT_A1126.pdf"},
-            {codigo: "A1127", descripcion: "Polyester res.styrene free 60%sl", archivo_ht: "HT_A1127.pdf"},
-            {codigo: "A1128", descripcion: "Ca/zn stearate", archivo_ht: "HT_A1128.pdf"},
-            {codigo: "A1129", descripcion: "Copolyester saturated LMW resin", archivo_ht: "HT_A1129.pdf"},
-            {codigo: "A1130", descripcion: "Polyester resin", archivo_ht: "HT_A1130.pdf"},
-            {codigo: "A1131", descripcion: "Butylated urea-formaldehyde", archivo_ht: "HT_A1131.pdf"},
-            {codigo: "A1132", descripcion: "Epoxy resin, liquid", archivo_ht: "HT_A1132.pdf"},
-            {codigo: "A1133", descripcion: "Epoxy resin modified SL", archivo_ht: "HT_A1133.pdf"},
-            {codigo: "A1134", descripcion: "Plastopal H85 EB LF", archivo_ht: "HT_A1134.pdf"},
-            {codigo: "A1135", descripcion: "Isocyanate-poly bik cycloalipha", archivo_ht: "HT_A1135.pdf"},
-            {codigo: "A1136", descripcion: "Polysiloxane in cyclohexanone sl", archivo_ht: "HT_A1136.pdf"},
-            {codigo: "A1137", descripcion: "Magnesium oxide", archivo_ht: "HT_A1137.pdf"},
-            {codigo: "A1138", descripcion: "Zinc oxide <100ppm PBO", archivo_ht: "HT_A1138.pdf"},
-            {codigo: "A1139", descripcion: "Alcohol bencilico", archivo_ht: "HT_A1139.pdf"},
-            {codigo: "A1140", descripcion: "Polyester adipate", archivo_ht: "HT_A1140.pdf"},
-            {codigo: "A1141", descripcion: "Copolimero acrilico", archivo_ht: "HT_A1141.pdf"},
-            {codigo: "A1142", descripcion: "Acrylate copolymer sl in naphtha", archivo_ht: "HT_A1142.pdf"},
-            {codigo: "A1143", descripcion: "Epoxy resin", archivo_ht: "HT_A1143.pdf"},
-            {codigo: "A1144", descripcion: "Phosphoric acid 85%", archivo_ht: null},
-            {codigo: "A1145", descripcion: "C.I. violet 23 in solvent sl", archivo_ht: "HT_A1145.pdf"},
-            {codigo: "A1146", descripcion: "Phenolic resin", archivo_ht: "HT_A1146.pdf"},
-            {codigo: "A1147", descripcion: "Phthalocyanine blue", archivo_ht: null},
-            {codigo: "A1148", descripcion: "Low aromatic high flash", archivo_ht: "HT_A1148.pdf"},
-            {codigo: "A1149", descripcion: "Polyester resin saturated 55% sl", archivo_ht: "HT_A1149.pdf"},
-            {codigo: "A1150", descripcion: "Carnauba wax dispersion", archivo_ht: null},
-            {codigo: "A1151", descripcion: "Resina fenolica methylon", archivo_ht: "HT_A1151.pdf"},
-            {codigo: "A1152", descripcion: "Phenolic res.unplasticized (53%)", archivo_ht: "HT_A1152.pdf"},
-            {codigo: "A1153", descripcion: "Polyvinyl chloride resin", archivo_ht: "HT_A1153.pdf"},
-            {codigo: "A1154", descripcion: "Channel carbon black mpc", archivo_ht: "HT_A1154.pdf"},
-            {codigo: "A1155", descripcion: "Stearic fatty acid- nf/fg flake", archivo_ht: "HT_A1155.pdf"},
-            {codigo: "A1156", descripcion: "Rosin partially hidrogenated", archivo_ht: "HT_A1156.pdf"},
-            {codigo: "A1157", descripcion: "Epoxy resin sl", archivo_ht: "HT_A1157.pdf"},
-            {codigo: "A1158", descripcion: "Dimethyl siloxane-polypolyether 310", archivo_ht: "HT_A1158.pdf"},
-            {codigo: "A1159", descripcion: "Phenolic resin butylated", archivo_ht: "HT_A1159.pdf"},
-            {codigo: "A1160", descripcion: "Benzoguanamine-formaldehyd res", archivo_ht: "HT_A1160.pdf"},
-            {codigo: "A1161", descripcion: "Styrene butadiene rubber", archivo_ht: "HT_A1161.pdf"},
-            {codigo: "A1162", descripcion: "Acrylic resin (acrylamide type)", archivo_ht: "HT_A1162.pdf"},
-            {codigo: "A1163", descripcion: "Petrolatum wax", archivo_ht: "HT_A1163.pdf"},
-            {codigo: "A1164", descripcion: "Acetic acid glacial", archivo_ht: "HT_A1164.pdf"},
-            {codigo: "A1165", descripcion: "Aromat. sulphonic in isopropanol", archivo_ht: "HT_A1165.pdf"},
-            {codigo: "A1166", descripcion: "Block copolymer hmw", rdf_file: null, archivo_ht: "HT_A1166.pdf"},
-            {codigo: "A1167", descripcion: "Ptfe/pe blend", archivo_ht: "HT_A1167.pdf"},
-            {codigo: "A1168", descripcion: "Polivinyl-butiral", archivo_ht: "HT_A1168.pdf"},
-            {codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: "HT_A1169.pdf"},
-            {codigo: "A1170", descripcion: "Hexane high purity 95%", archivo_ht: "HT_A1170.pdf"},
-            {codigo: "A1171", descripcion: "Thiophen benzoxazole derivate", archivo_ht: "HT_A1171.pdf"},
-            {codigo: "A1172", descripcion: "Phenol formaldehyde resin", archivo_ht: "HT_A1172.pdf"},
-            {codigo: "A1173", descripcion: "Vc/va/maleic acid terpol", archivo_ht: "HT_A1173.pdf"},
-            {codigo: "A1174", descripcion: "Modified castor oil derivative", archivo_ht: "HT_A1174.pdf"},
-            {codigo: "A1175", descripcion: "Melamine formaldehyde resin", archivo_ht: "HT_A1175.pdf"},
-            {codigo: "A1176", descripcion: "Xylene", archivo_ht: "HT_A1176.pdf"},
-            {codigo: "A1177", descripcion: "Cellulose acetate butyrate", archivo_ht: "HT_A1177.pdf"},
-            {codigo: "A1178", descripcion: "Propylene glycol methyl acetate", archivo_ht: "HT_A1178.pdf"},
-            {codigo: "A1179", descripcion: "Epoxy resin BPA/epichlorhydrin 667", archivo_ht: "HT_A1179.pdf"},
-            {codigo: "A1180", descripcion: "Hydroxy polyester resin", archivo_ht: "HT_A1180.pdf"},
-            {codigo: "A1181", descripcion: "Melamine formaldehyde resin 55% sl", archivo_ht: "HT_A1181.pdf"},
-            {codigo: "A1182", descripcion: "1-Methoxy-2-propanol", archivo_ht: "HT_A1182.pdf"}
-        ];
-
-        let currentTab = 'productos';
-        const mainSearch = document.getElementById('mainSearch');
-        const productosContainer = document.getElementById('productosContainer');
-        const materiasContainer = document.getElementById('materiasContainer');
-
-        // INTERRUPTOR DE PESTAÑAS (TABS)
-        function switchTab(tab) {
-            currentTab = tab;
-            mainSearch.value = ""; 
-            
-            // Alternar clases activas en los botones
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            // Adaptar textos y placeholders
-            if (tab === 'productos') {
-                document.getElementById('portalTitle').innerText = "Hojas Técnicas y de Seguridad";
-                document.getElementById('portalSubtitle').innerText = "Consulte y descargue la documentación oficial de nuestros productos.";
-                mainSearch.placeholder = "Escriba el código o número (Ej: 106, SV001)...";
-                productosContainer.style.display = 'grid';
-                materiasContainer.style.display = 'none';
-                renderInitialMessageProductos();
-            } else {
-                document.getElementById('portalTitle').innerText = "Hojas Técnicas de Materias Primas";
-                document.getElementById('portalSubtitle').innerText = "Buscador inteligente bidireccional por código interno o descripción química.";
-                mainSearch.placeholder = "Ingrese Código (Ej: A1101) o Nombre de Sustancia (Ej: Epoxy)...";
-                productosContainer.style.display = 'none';
-                materiasContainer.style.display = 'flex';
-                renderInitialMessageMaterias();
-            }
+    for (var i = 0; i < cards.length; i++) {
+        var code = cards[i].getAttribute('data-code');
+        if (filter === "" || code.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
         }
+    }
+}
+</script>
 
-        // MENSAJES INICIALES ESTATAL
-        function renderInitialMessageProductos() {
-            productosContainer.innerHTML = `<div class="status-message">Comience a escribir para buscar un producto terminado de las series AV o SV.</div>`;
-        }
-
-        function renderInitialMessageMaterias() {
-            materiasContainer.innerHTML = `<div class="status-message">Ingrese un código o descripción para iniciar la búsqueda bidireccional de materia prima.</div>`;
-        }
-
-        // RESALTADOR DE CARACTERES COINCIDENTES
-        function highlightMatch(text, query) {
-            if (!query) return text;
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
-        }
-
-        // MOTOR DE BÚSQUEDA INTEGRAL
-        function executeGlobalSearch() {
-            let rawQuery = mainSearch.value.trim();
-            let query = rawQuery.toUpperCase();
-
-            if (query === "") {
-                if (currentTab === 'productos') renderInitialMessageProductos();
-                if (currentTab === 'materias') renderInitialMessageMaterias();
-                return;
-            }
-
-            if (currentTab === 'productos') {
-                // Filtrado predictivo instantáneo de Productos Terminados
-                let cleanQuery = query.replace("ADREN", "").replace(/[^A-Z0-9]/g, "");
-                const filtered = productosData.filter(item => item.cleanId.includes(cleanQuery));
-
-                if (filtered.length > 0) {
-                    productosContainer.innerHTML = filtered.map(item => `
-                        <div class="product-card">
-                            <div>
-                                <h3>${item.name}</h3>
-                                <span class="sku">Ref: ${item.id}</span>
-                            </div>
-                            <div class="actions-layout">
-                                <a href="${item.tdsUrl}" class="btn-action btn-action-tds" target="_blank">
-                                    📄 Hoja Técnica (TDS)
-                                </a>
-                                <a href="${item.sdsUrl}" class="btn-action btn-action-sds" target="_blank">
-                                    ⚠️ Seguridades (SDS)
-                                </a>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    productosContainer.innerHTML = `
-                        <div class="status-message" style="color: var(--rojo-adren); font-weight: 600;">
-                            No se encontraron productos terminados que coincidan con "${rawQuery}".
-                        </div>`;
-                }
-            } else {
-                // Filtrado Bidireccional Avanzado de Materias Primas
-                const filteredMP = materiasData.filter(item => 
-                    item.codigo.toUpperCase().includes(query) || item.descripcion.toUpperCase().includes(query)
-                );
-
-                if (filteredMP.length > 0) {
-                    materiasContainer.innerHTML = filteredMP.map(item => {
-                        const codigoResaltado = highlightMatch(item.codigo, query);
-                        const descripcionResaltada = highlightMatch(item.descripcion, query);
-                        
-                        const actionElement = item.archivo_ht 
-                            ? `<a href="./documentos_mp/${item.archivo_ht}" target="_blank" class="btn-action btn-action-mp-ht">📄 Ver Hoja Técnica</a>`
-                            : `<span class="no-file-msg">Hoja Técnica no disponible</span>`;
-
-                        return `
-                            <div class="mp-card">
-                                <div class="mp-info">
-                                    <h3>Código: ${codigoResaltado}</h3>
-                                    <p>Descripción: ${descripcionResaltada}</p>
-                                </div>
-                                <div>
-                                    ${actionElement}
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                } else {
-                    materiasContainer.innerHTML = `
-                        <div class="status-message" style="color: var(--rojo-adren); font-weight: 600;">
-                            No se encontraron materias primas que coincidan con "${rawQuery}" en Código o Nombre.
-                        </div>`;
-                }
-            }
-        }
-
-        // EVENTOS DE ESCUCHA
-        mainSearch.addEventListener('input', executeGlobalSearch);
-
-        // INICIALIZACIÓN POR DEFECTO
-        renderInitialMessageProductos();
-    </script>
 </body>
 </html>
