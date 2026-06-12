@@ -38,7 +38,7 @@
             background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px); 
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 18px 50px; 
+            padding: 12px 50px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -49,11 +49,10 @@
         }
 
         .header-logo img {
-            height: 55px;
+            height: 65px; /* Ajuste de tamaño óptimo para el logo circular/ovalado */
             width: auto;
             display: block;
             image-rendering: -webkit-optimize-contrast;
-            filter: contrast(1.05) drop-shadow(0px 1px 1px rgba(0,0,0,0.1));
         }
 
         .header-title {
@@ -89,6 +88,7 @@
 
         .tabs-container {
             display: flex;
+            justify(content: center;
             justify-content: center;
             gap: 15px;
             margin-bottom: 35px;
@@ -343,7 +343,8 @@
 
     <header>
         <div class="header-logo">
-            <img src="./logo_adren.png" alt="ADREN"> 
+            <!-- Se vincula el archivo de alta calidad optimizado -->
+            <img src="./logo adren pag.jpg" alt="ADREN"> 
         </div>
         <div class="header-title">Centro de Documentación Técnica</div>
     </header>
@@ -507,7 +508,7 @@
         }
 
         function renderInitialMessageMaterias() {
-            materiasContainer.innerHTML = `<div class="status-message">Ingrese un código o descripción para iniciar la búsqueda bidireccional de materia prima.</div>`;
+            materiasContainer.innerHTML = `<div class="status-message">Ingrese un código o descripción para iniciar la búsqueda de materia prima.</div>`;
         }
 
         function highlightMatch(text, query) {
