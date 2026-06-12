@@ -7,8 +7,8 @@
     <style>
         /* DEFINICIÓN DE COLORES */
         :root {
-            --gris-claro-fondo: #f4f6f9; /* Fondo de la página y contenido (nuevo) */
-            --blanco-puro: #ffffff; /* Fondo del Header (nuevo) */
+            --gris-claro-fondo: #f4f6f9; 
+            --blanco-puro: #ffffff; 
             --verde-boton: #28a745;
             --verde-boton-hover: #218838;
             --rojo-borde: #e1000f;
@@ -17,7 +17,7 @@
         /* ESTILOS GENERALES (FONDO GRIS CLARO) */
         body { 
             font-family: 'Arial', sans-serif; 
-            background-color: var(--gris-claro-fondo); /* Fondo de la página */
+            background-color: var(--gris-claro-fondo); 
             margin: 0; 
             display: flex; 
             flex-direction: column; 
@@ -28,13 +28,13 @@
         /* HEADER (FRANJA SUPERIOR - BLANCO) */
         header { 
             width: 100%; 
-            background-color: var(--blanco-puro); /* Fondo BLANCO */
+            background-color: var(--blanco-puro); 
             padding: 20px 40px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             box-sizing: border-box; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sutil sombra */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
         }
 
         /* AJUSTE DEL LOGO (IMAGEN PNG) */
@@ -42,7 +42,6 @@
             height: 45px; 
             width: auto;  
             display: block;
-            /* Si tu PNG ya es verde, se verá perfecto. Si no, puedes aplicar el filtro aquí */
         }
 
         /* CONTENIDO PRINCIPAL */
@@ -67,7 +66,7 @@
             outline: none; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
             box-sizing: border-box;
-            background-color: var(--blanco-puro); /* Fondo blanco para el input */
+            background-color: var(--blanco-puro); 
         }
         .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #666; }
         
@@ -91,12 +90,12 @@
         /* RESULTADOS (TARJETAS - GRIS CLARO) */
         #results { margin-top: 30px; width: 100%; text-align: left; }
         .card { 
-            background: var(--gris-claro-fondo); /* Fondo GRIS CLARO para las tarjetas */
+            background: var(--blanco-puro); 
             padding: 20px; 
             margin-bottom: 15px; 
             border-radius: 8px; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-            border-left: 6px solid var(--rojo-borde); /* Borde rojo */
+            border-left: 6px solid var(--rojo-borde); 
         }
         .card h3 { margin-top: 0; color: #333; margin-bottom: 5px;}
         
@@ -106,8 +105,8 @@
             text-decoration: none; color: white; font-weight: bold; padding: 10px 15px; border-radius: 4px; font-size: 14px; display: flex; align-items: center;
             transition: opacity 0.3s ease;
         }
-        .btn-tds { background-color: #0056b3; } /* Azul */
-        .btn-sds { background-color: #d9534f; } /* Rojo */
+        .btn-tds { background-color: #0056b3; } 
+        .btn-sds { background-color: #d9534f; } 
         .btn-download:hover { opacity: 0.9; }
         
         .error { color: #cc0000; font-weight: bold; text-align: center; margin-top: 20px;}
