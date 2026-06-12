@@ -377,4 +377,151 @@
             {codigo: "A1160", descripcion: "Benzoguanamine-formaldehyd res", archivo_ht: "HT_A1160.pdf"},
             {codigo: "A1161", descripcion: "Styrene butadiene rubber", archivo_ht: "HT_A1161.pdf"},
             {codigo: "A1162", descripcion: "Acrylic resin (acrylamide type)", archivo_ht: "HT_A1162.pdf"},
-            {codigo: "A1163", descripcion: "Petrolatum wax", archivo_ht
+            {codigo: "A1163", descripcion: "Petrolatum wax", archivo_ht: "HT_A1163.pdf"},
+            {codigo: "A1164", descripcion: "Acetic acid glacial", archivo_ht: "HT_A1164.pdf"},
+            {codigo: "A1165", descripcion: "Aromat. sulphonic in isopropanol", archivo_ht: "HT_A1165.pdf"},
+            {codigo: "A1166", descripcion: "Block copolymer hmw", archivo_ht: "HT_A1166.pdf"},
+            {codigo: "A1167", descripcion: "Ptfe/pe blend", archivo_ht: "HT_A1167.pdf"},
+            {codigo: "A1168", descripcion: "Polivinyl-butiral", archivo_ht: "HT_A1168.pdf"},
+            {codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: "HT_A1169.pdf"},
+            {codigo: "A1170", descripcion: "Hexane high purity 95%", archivo_ht: "HT_A1170.pdf"},
+            {codigo: "A1171", descripcion: "Thiophen benzoxazole derivate", archivo_ht: "HT_A1171.pdf"},
+            {codigo: "A1172", descripcion: "Phenol formaldehyde resin", archivo_ht: "HT_A1172.pdf"},
+            {codigo: "A1173", descripcion: "Vc/va/maleic acid terpol", archivo_ht: "HT_A1173.pdf"},
+            {codigo: "A1174", descripcion: "Modified castor oil derivative", archivo_ht: "HT_A1174.pdf"},
+            {codigo: "A1175", descripcion: "Melamine formaldehyde resin", archivo_ht: "HT_A1175.pdf"},
+            {codigo: "A1176", descripcion: "Xylene", archivo_ht: "HT_A1176.pdf"},
+            {codigo: "A1177", descripcion: "Cellulose acetate butyrate", archivo_ht: "HT_A1177.pdf"},
+            {codigo: "A1178", descripcion: "Propylene glycol methyl acetate", archivo_ht: "HT_A1178.pdf"},
+            {codigo: "A1179", descripcion: "Epoxy resin BPA/epichlorhydrin 667", archivo_ht: "HT_A1179.pdf"},
+            {codigo: "A1180", descripcion: "Hydroxy polyester resin", archivo_ht: "HT_A1180.pdf"},
+            {codigo: "A1181", descripcion: "Melamine formaldehyde resin 55% sl", archivo_ht: "HT_A1181.pdf"},
+            {codigo: "A1182", descripcion: "1-Methoxy-2-propanol", archivo_ht: "HT_A1182.pdf"}
+        ];
+
+        let selectedModule = '';
+        const mainSearch = document.getElementById('mainSearch');
+        const initialMenu = document.getElementById('initialMenu');
+        const searchSection = document.getElementById('searchSection');
+        const mainTitle = document.getElementById('mainTitle');
+        const mainSubtitle = document.getElementById('mainSubtitle');
+        const textIndicador = document.getElementById('textIndicador');
+        const productosContainer = document.getElementById('productosContainer');
+        const materiasContainer = document.getElementById('materiasContainer');
+
+        function openSearch(moduleType) {
+            selectedModule = moduleType;
+            initialMenu.style.display = 'none';
+            searchSection.style.display = 'block';
+            mainSearch.value = "";
+            productosContainer.innerHTML = "";
+            materiasContainer.innerHTML = "";
+
+            if (moduleType === 'productos') {
+                mainTitle.innerText = "Hojas Técnicas y de Seguridad";
+                mainSubtitle.innerText = "Buscador de Productos Terminados";
+                textIndicador.innerText = "Comience a escribir para buscar un producto terminado de las series AV o SV.";
+                productosContainer.style.display = 'grid';
+                materiasContainer.style.display = 'none';
+                mainSearch.placeholder = "Ej: AV101, SV003...";
+            } else {
+                // Modificación dinámica para Materias Primas ocultando "y de Seguridad"
+                mainTitle.innerText = "Hojas Técnicas";
+                mainSubtitle.innerText = "Buscador de Materias Primas";
+                textIndicador.innerText = "Ingrese un código o descripción para iniciar la búsqueda de materia prima.";
+                productosContainer.style.display = 'none';
+                materiasContainer.style.display = 'flex';
+                mainSearch.placeholder = "Ej: A1103, Resin, Alcohol...";
+            }
+            setTimeout(() => mainSearch.focus(), 50);
+        }
+
+        function resetToMenu() {
+            selectedModule = '';
+            searchSection.style.display = 'none';
+            initialMenu.style.display = 'flex';
+            mainTitle.innerText = "Hojas Técnicas y de Seguridad";
+            mainSubtitle.innerText = "Seleccione el tipo de documentación que desea buscar.";
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function executeGlobalSearch() {
+            let rawQuery = mainSearch.value.trim();
+            let query = rawQuery.toUpperCase();
+
+            if (query === "") {
+                textIndicador.style.display = "block";
+                productosContainer.innerHTML = "";
+                materiasContainer.innerHTML = "";
+                return;
+            }
+
+            textIndicador.style.display = "none";
+
+            if (selectedModule === 'productos') {
+                let cleanQuery = query.replace("ADREN", "").replace(/[^A-Z0-9]/g, "");
+                const filtered = productosData.filter(item => item.cleanId.includes(cleanQuery));
+
+                if (filtered.length > 0) {
+                    productosContainer.innerHTML = filtered.map(item => `
+                        <div class="product-card">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <span class="sku">Ref: ${item.id}</span>
+                            </div>
+                            <div class="actions-layout">
+                                <a href="${item.tdsUrl}" class="btn-action btn-action-tds" target="_blank">
+                                    📄 Hoja Técnica (TDS)
+                                </a>
+                                <a href="${item.sdsUrl}" class="btn-action btn-action-sds" target="_blank">
+                                    ⚠️ Hoja de Seguridad (SDS)
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    productosContainer.innerHTML = `<div style="grid-column: 1/-1; color: #d93025; font-weight: 500;">No se encontraron resultados para "${rawQuery}".</div>`;
+                }
+            } else {
+                const filteredMP = materiasData.filter(item => {
+                    const cod = item.codigo ? item.codigo.toUpperCase() : '';
+                    const desc = item.descripcion ? item.descripcion.toUpperCase() : '';
+                    return cod.includes(query) || desc.includes(query);
+                });
+
+                if (filteredMP.length > 0) {
+                    materiasContainer.innerHTML = filteredMP.map(item => {
+                        const codigoResaltado = highlightMatch(item.codigo || '', query);
+                        const descripcionResaltada = highlightMatch(item.descripcion || '', query);
+                        
+                        const actionElement = item.archivo_ht 
+                            ? `<a href="./documentos_mp/${item.archivo_ht}" target="_blank" class="btn-action btn-action-mp-ht">📄 Ver Hoja Técnica</a>`
+                            : `<span class="no-file-msg">Hoja Técnica no disponible</span>`;
+
+                        return `
+                            <div class="mp-card">
+                                <div class="mp-info">
+                                    <h3>Código: ${codigoResaltado}</h3>
+                                    <p>Descripción: ${descripcionResaltada}</p>
+                                </div>
+                                <div>
+                                    ${actionElement}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    materiasContainer.innerHTML = `<div style="color: #d93025; font-weight: 500;">No se encontraron resultados para "${rawQuery}".</div>`;
+                }
+            }
+        }
+
+        mainSearch.addEventListener('input', executeGlobalSearch);
+    </script>
+</body>
+</html>
