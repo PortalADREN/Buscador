@@ -28,25 +28,36 @@
             min-height: 100vh;
         }
 
-        /* HEADER PREMIUM OPTIMIZADO */
+        /* HEADER PREMIUM OPTIMIZADO (Mayor espacio vertical) */
         header {
             background-color: var(--blanco);
             border-bottom: 1px solid var(--borde);
-            padding: 20px 50px; /* Un poco más de espacio vertical */
+            padding: 25px 50px; /* Incrementamos el acolchado para dar aire al logo */
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-sizing: border-box;
         }
 
-        /* MEJORA DE CALIDAD Y TAMAÑO DEL LOGO */
+        /* MAXIMIZACIÓN Y CONTROL DE CALIDAD DEL LOGO */
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
         .header-logo img {
-            height: 55px; /* Logo más grande y corporativo */
+            height: 70px; /* Logo más grande e imponente */
             width: auto;
             display: block;
-            /* Tecnologías para forzar la máxima nitidez en los navegadores */
+            
+            /* TRUCO DE NITIDEZ EXTRAMA */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            
+            /* Sutil sombra para dar relieve al logo */
+            filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.08)); 
         }
 
         .header-title {
@@ -247,7 +258,8 @@
         </div>
 
         <div class="results-grid" id="resultsGrid">
-            </div>
+            <!-- Los resultados se cargan aquí -->
+        </div>
     </main>
 
     <script>
