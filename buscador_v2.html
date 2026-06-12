@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Técnico ADREN | Base de Datos</title>
+    <style>
+        :root {
+            --bg-principal: #f8fafc;
+            --blanco: #ffffff;
+            --texto-principal: #1e293b;
+            --texto-secundario: #64748b;
+            --verde-adren: #28a745;
+            --verde-hover: #1e7e34;
+            --rojo-adren: #e1000f;
+            --azul-tds: #0284c7;
+            --borde: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER PREMIUM */
+        header {
+            background-color: var(--blanco);
+            border-bottom: 1px solid var(--borde);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .header-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .header-title {
+            font-size: 14px;
+            color: var(--texto-secundario);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+            color: var(--texto-principal);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            color: var(--texto-secundario);
+            margin: 0;
+        }
+
+        /* SECCIÓN DE BÚSQUEDA AVANZADA */
+        .search-wrapper {
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            position: relative;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border-radius: 12px;
+            border: 2px solid var(--borde);
+            font-size: 16px;
+            outline: none;
+            background-color: var(--blanco);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .search-box input:focus {
+            border-color: var(--verde-adren);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .search-box .icon {
+            position: absolute;
+            left: 20px;
+            font-size: 20px;
+            color: var(--texto-secundario);
+            pointer-events: none;
+        }
+
+        /* CUADRÍCULA DE RESULTADOS */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* TARJETAS PROFESIONALES */
+        .product-card {
+            background-color: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--rojo-adren);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+        }
+
+        .product-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: var(--texto-principal);
+        }
+
+        .product-card .sku {
+            font-size: 12px;
+            color: var(--texto-secundario);
+            background-color: var(--bg-principal);
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* BOTONES CORPORATIVOS */
+        .actions-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 11px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-action-tds {
+            background-color: rgba(2, 132, 199, 0.08);
+            color: var(--azul-tds);
+        }
+        .btn-action-tds:hover {
+            background-color: var(--azul-tds);
+            color: var(--blanco);
+        }
+
+        .btn-action-sds {
+            background-color: rgba(225, 0, 15, 0.06);
+            color: var(--rojo-adren);
+        }
+        .btn-action-sds:hover {
+            background-color: var(--rojo-adren);
+            color: var(--blanco);
+        }
+
+        /* ESTADOS DE ERROR O VACÍO */
+        .status-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--texto-secundario);
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="./logo_adren.png" alt="ADREN"> 
+        </div>
+        <div class="header-title">Centro de Documentación Técnica</div>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <h1>Fichas Técnicas y de Seguridad</h1>
+            <p>Consulte y descargue la documentación oficial de nuestros productos.</p>
+        </div>
+
+        <div class="search-wrapper">
+            <div class="search-box">
+                <span class="icon">🔍</span>
+                <input type="text" id="dbSearch" placeholder="Escriba el código o número (Ej: 106, SV001)..." autocomplete="off">
+            </div>
+        </div>
+
+        <div class="results-grid" id="resultsGrid">
+            </div>
+    </main>
+
+    <script>
+        // DATA CENTRALIZADA
+        const catalogData = [
+            "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
+            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113",
+            "SV001", "SV002", "SV003", "SV004", "SV005", "SV006"
+        ].map(code => ({
+            id: code,
+            name: `ADREN ${code}`,
+            cleanId: code.replace(/[^a-zA-Z0-9]/g, ''), // Remueve caracteres raros
+            tdsUrl: `./documentos/TDS_ADREN_${code}.pdf`,
+            sdsUrl: `./documentos/SDS_ADREN_${code}.pdf`
+        }));
+
+        const searchInput = document.getElementById('dbSearch');
+        const resultsGrid = document.getElementById('resultsGrid');
+
+        function renderInitialMessage() {
+            resultsGrid.innerHTML = `<div class="status-message">Comience a escribir para buscar un producto de las series AV o SV.</div>`;
+        }
+
+        function executeSearch() {
+            // Limpieza inteligente del input: quita "adren", guiones, espacios y lo pasa a mayúsculas
+            let query = searchInput.value.toUpperCase()
+                                         .replace("ADREN", "")
+                                         .replace(/[^A-Z0-9]/g, "")
+                                         .trim();
+
+            if (query === "") {
+                renderInitialMessage();
+                return;
+            }
+
+            const filtered = catalogData.filter(item => item.cleanId.includes(query));
+
+            if (filtered.length > 0) {
+                resultsGrid.innerHTML = filtered.map(item => `
+                    <div class="product-card">
+                        <div>
+                            <h3>${item.name}</h3>
+                            <span class="sku">Ref: ${item.id}</span>
+                        </div>
+                        <div class="actions-layout">
+                            <a href="${item.tdsUrl}" class="btn-action btn-action-tds" target="_blank">
+                                📄 Ficha Técnica (TDS)
+                            </a>
+                            <a href="${item.sdsUrl}" class="btn-action btn-action-sds" target="_blank">
+                                ⚠️ Seguridades (SDS)
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                resultsGrid.innerHTML = `
+                    <div class="status-message" style="color: var(--rojo-adren); font-weight: 600;">
+                        No se encontraron productos que coincidan con "${searchInput.value}".
+                    </div>`;
+            }
+        }
+
+        // Evento 'input': Ejecuta la búsqueda instantáneamente al escribir
+        searchInput.addEventListener('input', executeSearch);
+
+        // Renderizado inicial al cargar la página
+        renderInitialMessage();
+    </script>
+</body>
+</html>
