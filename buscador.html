@@ -127,7 +127,7 @@
         <h2>Busque su producto ADREN</h2>
         <div class="search-container">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Ingrese código (Ej: AV101)...">
+            <input type="text" id="searchInput" placeholder="Ingrese código (Ej: AV106 o SV002)...">
         </div>
         
         <button onclick="buscarProducto()">Buscar Documentos</button>
@@ -137,9 +137,11 @@
 
     <script>
         // --- CONFIGURACIÓN DE PRODUCTOS ---
+        // Se incluyen los códigos antiguos AV y los nuevos SV
         const listaCodigos = [
             "AV101", "AV102", "AV103", "AV104", "AV105", "AV106", 
-            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113", 
+            "AV107", "AV108", "AV109", "AV110", "AV111", "AV112", "AV113",
+            "SV001", "SV002", "SV003", "SV004", "SV005", "SV006"
         ];
 
         const baseDeDatos = listaCodigos.map(codigo => {
@@ -160,7 +162,7 @@
             input = input.replace("ADREN", "").replace("_", "").trim();
 
             if(input === "") {
-                container.innerHTML = "<p class='error'>Por favor ingrese un código (Ej: AV101).</p>";
+                container.innerHTML = "<p class='error'>Por favor ingrese un código (Ej: AV101 o SV001).</p>";
                 return;
             }
 
@@ -186,15 +188,6 @@
                 container.innerHTML = `
                     <div class='error'>
                         No se encontró el producto "ADREN ${input}". <br>
-                        <small>Verifique que sea un código entre AV101 y av113.</small>
+                        <small>Verifique que sea un código válido (Series AV101-AV113 o SV001-SV006).</small>
                     </div>`;
             }
-        }
-        
-        document.getElementById("searchInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") buscarProducto();
-        });
-    </script>
-
-</body>
-</html>
