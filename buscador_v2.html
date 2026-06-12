@@ -3,30 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Técnico ADREN | Base de Datos Integral</title>
+    <title>Portal Técnico ADREN</title>
     <style>
-        :root {
-            --bg-principal: #f1f5f9; 
-            --blanco: #ffffff;
-            --texto-principal: #1e293b;
-            --texto-secundario: #475569;
-            --verde-adren: #28a745;
-            --rojo-adren: #e1000f;
-            --rojo-hover: #c4000d;
-            --azul-tds: #0284c7;
-            --borde: #cbd5e1;
-            --resaltado-mp: #16a34a;
-        }
-
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-principal);
-            background-image: url('./vpl_0007_shutterstock_82504948.jpg');
-            background-repeat: no-repeat;
-            background-position: calc(100% + 150px) calc(100% + 100px); 
-            background-size: 550px auto; 
-            background-attachment: fixed; 
-            color: var(--texto-principal);
+            background-color: #f1f5f9;
+            color: #1e293b;
             margin: 0;
             padding: 0;
             display: flex;
@@ -35,29 +17,24 @@
         }
 
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px); 
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 12px 50px; 
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 15px 50px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
             box-sizing: border-box;
-            position: relative;
-            z-index: 10;
         }
 
         .header-logo img {
-            height: 65px; /* Ajuste de tamaño óptimo para el logo circular/ovalado */
+            height: 65px; /* Tamaño óptimo para resaltar tu nuevo logo mejorado */
             width: auto;
             display: block;
-            image-rendering: -webkit-optimize-contrast;
         }
 
         .header-title {
             font-size: 14px;
-            color: var(--texto-secundario);
+            color: #475569;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -70,189 +47,137 @@
             margin: 40px auto;
             padding: 0 20px;
             box-sizing: border-box;
-            position: relative;
-            z-index: 5;
-        }
-
-        .hero-section {
-            text-align: center;
-            margin-bottom: 30px;
+            text-align: center; /* Mantiene todo el contenido centrado */
         }
 
         .hero-section h1 {
-            font-size: 30px;
-            color: var(--texto-principal);
+            font-size: 32px;
+            color: #1a2b4c;
             margin-bottom: 10px;
             font-weight: 700;
         }
 
+        .hero-section p {
+            color: #475569;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* Contenedor de pestañas original centrado */
         .tabs-container {
-            display: flex;
-            justify(content: center;
+            display: inline-flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 35px;
+            gap: 0;
+            margin-bottom: 15px;
+            border: 1px solid #a6a6a6;
+            background-color: #e1e1e1;
+            padding: 2px;
         }
 
         .tab-button {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--borde);
-            padding: 12px 28px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--texto-secundario);
-            border-radius: 30px;
+            background-color: #eaeaea;
+            border: 1px solid #b5b5b5;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: #000000;
             cursor: pointer;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .tab-button:hover {
-            background-color: var(--blanco);
-            color: var(--texto-principal);
-            border-color: var(--texto-secundario);
         }
 
         .tab-button.active {
-            background-color: var(--texto-principal);
-            color: var(--blanco);
-            border-color: var(--texto-principal);
-            box-shadow: 0 4px 10px rgba(30, 41, 59, 0.25);
+            background-color: #ffffff;
+            font-weight: bold;
+            border-bottom-color: transparent;
         }
 
+        /* Buscador original centrado con lupa interna/delantera */
         .search-wrapper {
-            max-width: 650px;
-            margin: 0 auto 40px auto;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: center;
             align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
-        .search-box {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 16px 20px 16px 55px;
-            border-radius: 12px;
-            border: 2px solid var(--borde);
-            font-size: 16px;
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            box-sizing: border-box;
-        }
-
-        .search-box input:focus {
-            border-color: var(--azul-tds);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-            background-color: var(--blanco);
-        }
-
-        .search-box .icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+        .search-wrapper span {
             font-size: 20px;
-            color: var(--texto-secundario);
-            pointer-events: none;
         }
 
+        .search-wrapper input {
+            width: 250px;
+            padding: 6px 10px;
+            border: 1px solid #7a7a7a;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .status-message {
+            color: #333333;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+
+        /* Estilos de las tarjetas de resultados */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 24px;
-            width: 100%;
+            margin-top: 30px;
+            text-align: left;
         }
 
         .product-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(203, 213, 225, 0.7);
-            border-radius: 12px;
+            background-color: #ffffff;
+            border-left: 4px solid #e1000f;
+            border-radius: 4px;
             padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
 
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--rojo-adren);
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 24px -5px rgba(0,0,0,0.08);
-            background-color: var(--blanco);
-        }
-
-        .product-card h3, .mp-card h3 {
-            margin: 0 0 8px 0;
+        .product-card h3 {
+            margin: 0 0 5px 0;
             font-size: 18px;
-            color: var(--texto-principal);
+            color: #1a2b4c;
         }
 
         .product-card .sku {
             font-size: 12px;
-            color: var(--texto-secundario);
-            background-color: rgba(241, 245, 249, 0.8);
-            padding: 4px 8px;
-            border-radius: 6px;
+            color: #777;
+            background-color: #f0f2f5;
+            padding: 2px 8px;
+            border-radius: 4px;
             display: inline-block;
             margin-bottom: 20px;
-            font-weight: 600;
         }
 
         .mp-list {
             display: flex;
             flex-direction: column;
             gap: 16px;
-            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 30px auto 0 auto;
+            text-align: left;
         }
 
         .mp-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border-left: 6px solid var(--azul-tds);
-            border-top: 1px solid rgba(203, 213, 225, 0.6);
-            border-right: 1px solid rgba(203, 213, 225, 0.6);
-            border-bottom: 1px solid rgba(203, 213, 225, 0.6);
-            border-radius: 8px;
+            background-color: #ffffff;
+            border-left: 6px solid #0284c7;
+            border-top: 1px solid #cbd5e1;
+            border-right: 1px solid #cbd5e1;
+            border-bottom: 1px solid #cbd5e1;
+            border-radius: 4px;
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .mp-card:hover {
-            background-color: var(--blanco);
-            transform: translateX(4px);
         }
 
         .mp-info p {
             margin: 4px 0 0 0;
-            color: var(--texto-secundario);
+            color: #475569;
             font-size: 15px;
         }
 
@@ -263,79 +188,41 @@
         }
 
         .btn-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            padding: 11px 16px;
-            border-radius: 8px;
-            transition: background-color 0.2s, transform 0.1s;
-            white-space: nowrap;
-        }
-
-        .btn-action:active {
-            transform: scale(0.98);
+            font-size: 14px;
+            font-weight: 500;
+            box-sizing: border-box;
         }
 
         .btn-action-tds {
-            background-color: rgba(2, 132, 199, 0.08);
-            color: var(--azul-tds);
-        }
-        .btn-action-tds:hover {
-            background-color: var(--azul-tds);
-            color: var(--blanco);
+            background-color: #e8f0fe;
+            color: #1a73e8;
         }
 
         .btn-action-sds {
-            background-color: rgba(225, 0, 15, 0.06);
-            color: var(--rojo-adren);
-        }
-        .btn-action-sds:hover {
-            background-color: var(--rojo-adren);
-            color: var(--blanco);
+            background-color: #fce8e6;
+            color: #d93025;
         }
 
         .btn-action-mp-ht {
-            background-color: var(--rojo-adren);
-            color: var(--blanco);
-            font-size: 13px;
-            padding: 10px 18px;
-        }
-        .btn-action-mp-ht:hover {
-            background-color: var(--rojo-hover);
+            background-color: #e1000f;
+            color: #ffffff;
         }
 
         .no-file-msg {
             color: #94a3b8;
             font-size: 13px;
             font-style: italic;
-            font-weight: 500;
-            white-space: nowrap;
         }
 
         .highlight {
-            color: var(--resaltado-mp);
-            font-weight: 700;
-            background-color: rgba(22, 163, 74, 0.08);
+            background-color: rgba(22, 163, 74, 0.15);
             padding: 0 2px;
-            border-radius: 4px;
-        }
-
-        .status-message {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px;
-            color: var(--texto-secundario);
-            font-size: 15px;
-            font-weight: 500;
-            background-color: rgba(255,255,255,0.4);
-            border-radius: 12px;
-            backdrop-filter: blur(2px);
-            width: 100%;
-            box-sizing: border-box;
         }
     </style>
 </head>
@@ -343,7 +230,7 @@
 
     <header>
         <div class="header-logo">
-            <!-- Se vincula el archivo de alta calidad optimizado -->
+            <!-- Apunta exactamente a tu imagen de alta calidad sin alterar el resto de la barra -->
             <img src="./logo adren pag.jpg" alt="ADREN"> 
         </div>
         <div class="header-title">Centro de Documentación Técnica</div>
@@ -355,25 +242,24 @@
             <p id="portalSubtitle">Consulte y descargue la documentación oficial de nuestros productos.</p>
         </div>
 
+        <!-- Pestañas centradas tal cual tu diseño original -->
         <div class="tabs-container">
             <button class="tab-button active" onclick="switchTab('productos')">📦 Productos Terminados</button>
             <button class="tab-button" onclick="switchTab('materias')">🧪 Materias Primas</button>
         </div>
 
+        <!-- Buscador centrado tal cual tu diseño original -->
         <div class="search-wrapper">
-            <div class="search-box">
-                <span class="icon" id="searchIcon">🔍</span>
-                <input type="text" id="mainSearch" placeholder="Escriba el código o número (Ej: 106, SV001)..." autocomplete="off">
-            </div>
+            <span id="searchIcon">🔍</span>
+            <input type="text" id="mainSearch" placeholder="Escriba el código o número" autocomplete="off">
         </div>
 
-        <div class="results-grid" id="productosContainer">
-            <!-- Renderizado de Productos Terminados -->
+        <div class="status-message" id="textIndicador">
+            Comience a escribir para buscar un producto terminado de las series AV o SV.
         </div>
 
-        <div class="mp-list" id="materiasContainer" style="display: none;">
-            <!-- Renderizado de Materias Primas -->
-        </div>
+        <div class="results-grid" id="productosContainer"></div>
+        <div class="mp-list" id="materiasContainer" style="display: none;"></div>
     </main>
 
     <script>
@@ -448,7 +334,7 @@
             {codigo: "A1156", descripcion: "Rosin partially hidrogenated", archivo_ht: "HT_A1156.pdf"},
             {codigo: "A1157", descripcion: "Epoxy resin sl", archivo_ht: "HT_A1157.pdf"},
             {codigo: "A1158", descripcion: "Dimethyl siloxane-polypolyether 310", archivo_ht: "HT_A1158.pdf"},
-            {codigo: "A1159", descripcion: "Phenolic resin butylated", archivo_ht: "HT_A1159.pdf"},
+            {codigo: "A1159", stroke:"Phenolic resin butylated", archivo_ht: "HT_A1159.pdf"},
             {codigo: "A1160", descripcion: "Benzoguanamine-formaldehyd res", archivo_ht: "HT_A1160.pdf"},
             {codigo: "A1161", descripcion: "Styrene butadiene rubber", archivo_ht: "HT_A1161.pdf"},
             {codigo: "A1162", descripcion: "Acrylic resin (acrylamide type)", archivo_ht: "HT_A1162.pdf"},
@@ -458,7 +344,7 @@
             {codigo: "A1166", descripcion: "Block copolymer hmw", archivo_ht: "HT_A1166.pdf"},
             {codigo: "A1167", descripcion: "Ptfe/pe blend", archivo_ht: "HT_A1167.pdf"},
             {codigo: "A1168", descripcion: "Polivinyl-butiral", archivo_ht: "HT_A1168.pdf"},
-            {codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: "HT_A1169.pdf"},
+            {codigo: "A1170", codigo: "A1169", descripcion: "Phenolic resin bakelite", archivo_ht: "HT_A1169.pdf"},
             {codigo: "A1170", descripcion: "Hexane high purity 95%", archivo_ht: "HT_A1170.pdf"},
             {codigo: "A1171", descripcion: "Thiophen benzoxazole derivate", archivo_ht: "HT_A1171.pdf"},
             {codigo: "A1172", descripcion: "Phenol formaldehyde resin", archivo_ht: "HT_A1172.pdf"},
@@ -478,37 +364,28 @@
         const mainSearch = document.getElementById('mainSearch');
         const productosContainer = document.getElementById('productosContainer');
         const materiasContainer = document.getElementById('materiasContainer');
+        const textIndicador = document.getElementById('textIndicador');
 
         function switchTab(tab) {
             currentTab = tab;
             mainSearch.value = ""; 
+            productosContainer.innerHTML = "";
+            materiasContainer.innerHTML = "";
             
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
             if (tab === 'productos') {
-                document.getElementById('portalTitle').innerText = "Hojas Técnicas y de Seguridad";
-                document.getElementById('portalSubtitle').innerText = "Consulte y descargue la documentación oficial de nuestros productos.";
-                mainSearch.placeholder = "Escriba el código o número (Ej: 106, SV001)...";
+                textIndicador.style.display = "block";
+                textIndicador.innerText = "Comience a escribir para buscar un producto terminado de las series AV o SV.";
                 productosContainer.style.display = 'grid';
                 materiasContainer.style.display = 'none';
-                renderInitialMessageProductos();
             } else {
-                document.getElementById('portalTitle').innerText = "Hojas Técnicas de Materias Primas";
-                document.getElementById('portalSubtitle').innerText = "Buscador inteligente bidireccional por código interno o descripción química.";
-                mainSearch.placeholder = "Ingrese Código (Ej: A1101) o Nombre de Sustancia (Ej: Epoxy)...";
+                textIndicador.style.display = "block";
+                textIndicador.innerText = "Ingrese un código o descripción para iniciar la búsqueda de materia prima.";
                 productosContainer.style.display = 'none';
                 materiasContainer.style.display = 'flex';
-                renderInitialMessageMaterias();
             }
-        }
-
-        function renderInitialMessageProductos() {
-            productosContainer.innerHTML = `<div class="status-message">Comience a escribir para buscar un producto terminado de las series AV o SV.</div>`;
-        }
-
-        function renderInitialMessageMaterias() {
-            materiasContainer.innerHTML = `<div class="status-message">Ingrese un código o descripción para iniciar la búsqueda de materia prima.</div>`;
         }
 
         function highlightMatch(text, query) {
@@ -522,10 +399,13 @@
             let query = rawQuery.toUpperCase();
 
             if (query === "") {
-                if (currentTab === 'productos') renderInitialMessageProductos();
-                if (currentTab === 'materias') renderInitialMessageMaterias();
+                textIndicador.style.display = "block";
+                productosContainer.innerHTML = "";
+                materiasContainer.innerHTML = "";
                 return;
             }
+
+            textIndicador.style.display = "none";
 
             if (currentTab === 'productos') {
                 let cleanQuery = query.replace("ADREN", "").replace(/[^A-Z0-9]/g, "");
@@ -549,10 +429,7 @@
                         </div>
                     `).join('');
                 } else {
-                    productosContainer.innerHTML = `
-                        <div class="status-message" style="color: var(--rojo-adren); font-weight: 600;">
-                            No se encontraron productos terminados que coincidan con "${rawQuery}".
-                        </div>`;
+                    productosContainer.innerHTML = `<div style="grid-column: 1/-1; color: red;">No se encontraron resultados.</div>`;
                 }
             } else {
                 const filteredMP = materiasData.filter(item => 
@@ -581,16 +458,12 @@
                         `;
                     }).join('');
                 } else {
-                    materiasContainer.innerHTML = `
-                        <div class="status-message" style="color: var(--rojo-adren); font-weight: 600;">
-                            No se encontraron materias primas que coincidan con "${rawQuery}" en Código o Nombre.
-                        </div>`;
+                    materiasContainer.innerHTML = `<div style="color: red;">No se encontraron resultados.</div>`;
                 }
             }
         }
 
         mainSearch.addEventListener('input', executeGlobalSearch);
-        renderInitialMessageProductos();
     </script>
 </body>
 </html>
